@@ -24,8 +24,8 @@ USE `Networking`;
 
 DROP TABLE IF EXISTS `Namecards`;
 CREATE TABLE `Namecards` (
-  `uid` char(8) NOT NULL,
-  `cid` char(8) NOT NULL,
+  `uid` varchar(8) NOT NULL,
+  `cid` varchar(8) NOT NULL,
   `name` char(100) NOT NULL,
   `email` char(100) NOT NULL,
   `phone_num` int(8) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `Namecards` (
 
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
-  `uid` char(8) NOT NULL,
+  `uid` varchar(8) NOT NULL,
   `name` char(100) NOT NULL,
   `email` char(100) NOT NULL,
   `pword` char(100) NOT NULL
