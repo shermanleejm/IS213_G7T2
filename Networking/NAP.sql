@@ -11,10 +11,10 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `Networking`
+-- Database: `NAP`
 --
-CREATE DATABASE IF NOT EXISTS `Networking` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `Networking`;
+CREATE DATABASE IF NOT EXISTS `NAP` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `NAP`;
 
 -- --------------------------------------------------------
 
@@ -27,7 +27,7 @@ CREATE TABLE `Namecards` (
   `uid` varchar(8) NOT NULL,
   `cid` varchar(8) NOT NULL,
   `name` char(100) NOT NULL,
-  `email` char(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `phone_num` int(8) DEFAULT NULL,
   `company` char(100) NOT NULL,
   `title` char(100) NOT NULL,
@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `uid` varchar(8) NOT NULL,
   `name` char(100) NOT NULL,
-  `email` char(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `pword` char(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
