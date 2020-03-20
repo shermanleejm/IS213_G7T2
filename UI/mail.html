@@ -81,7 +81,7 @@
               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-outline-primary">Filter</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-outline-primary">Clear</a></div>
             </div><br>
             <!--Table-->
-            <table class="table">
+            <table class="table" id="emailtable">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
@@ -92,32 +92,6 @@
                   <th scope="col">Select</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Ally</td>
-                  <td>Technology</td>
-                  <td>Google</td>
-                  <td>CTO</td>
-                  <td>ally@google.com</td>
-                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></td>
-                </tr>
-                <tr>
-                  <td>Melvin</td>
-                  <td>Finance</td>
-                  <td>Temasek</td>
-                  <td>Accountant</td>
-                  <td>melvin@temasek.com</td>
-                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></td>
-                </tr>
-                <tr>
-                  <td>Harry</td>
-                  <td>Transport</td>
-                  <td>SBS</td>
-                  <td>Manager</td>
-                  <td>harry@sbs.com</td>
-                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></td>
-                </tr>
-              </tbody>
             </table><br><br>
             <div>
               <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="email.html" class="btn btn-primary btn-gradient" style="float:right">Draft Mail</a></div>
@@ -149,5 +123,57 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
+    <script>
+      // Helper function to display error message
+      function showError(message) {
+          // Hide the table and button in the event of error
+          //$('#booksTable').hide();
+          //$('#addBookBtn').hide();
+  
+          // Display an error under the main container
+          $('#main-container')
+              .append("<label>"+message+"</label>");
+      }
+  
+      // anonymous async function 
+      // - using await requires the function that calls it to be async
+      $(async() => {           
+          // Change serviceURL to your own
+          var serviceURL = "http://127.0.0.1:5000/email/001";
+          try {
+              const response =
+               await fetch(
+                 serviceURL, { method: 'GET' }
+              );
+              const data = await response.json();
+              var emails = data.email; //the arr is in data.books of the JSON data
+              console.log(emails)
+              // array or array.length are falsy
+              if (!emails || !emails.length) {
+                  showError('----- list empty or undefined.')
+              } else {
+                  // for loop to setup all table rows with obtained book data
+                  var rows = "";
+                  for (const email of emails) {
+                      eachRow =
+                          "<td>" + email.name + "</td>" +
+                          "<td>" + email.industry + "</td>" +
+                          "<td>" + email.company + "</td>" +
+                          "<td>" + email.title + "</td>" +
+                          "<td>" + email.email + "</td>"+
+                          "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='' id='emailcheckbox'></td>";
+                      rows += "<tr>" + eachRow + "</tr>";
+
+                  }
+                  // add all the rows to the table
+                  $('#emailtable').append(rows);
+              }
+          } catch (error) {
+              // Errors when calling the service; such as network error, 
+              // service offline, etc
+              showError('There is a problem retrieving namecard data, please try again later.<br />'+error);
+          } // error
+      });
+  </script>
   </body>
 </html>

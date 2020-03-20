@@ -39,12 +39,12 @@ class Email(db.Model):
         "company": self.company,"title": self.title,"industry": self.industry}
 
 
-# @app.route("/email/<string:uid>")
-# def get_all(uid):
-#     email = Email.query.filter_by(uid=uid).all()
-#     if email:
-#         return jsonify({"email": [emails.json() for emails in email]})
-#     return jsonify({"message": "======"})
+@app.route("/email/<string:uid>")
+def get_all(uid):
+    email = Email.query.filter_by(uid=uid).all()
+    if email:
+        return jsonify({"email": [emails.json() for emails in email]})
+    return jsonify({"message": "======"})
 
 
 @app.route("/email/<string:uid>&<string:company>&<string:industry>")
