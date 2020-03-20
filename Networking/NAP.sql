@@ -13,7 +13,7 @@ CREATE TABLE mailing (
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-  uid INT NOT NULL AUTO_INCREMENT,
+  uid INT NOT NULL ,
   name char(100) NOT NULL,
   email varchar(100) NOT NULL,
   pword char(100) NOT NULL,

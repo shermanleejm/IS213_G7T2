@@ -6,12 +6,15 @@ from selenium import webdriver
 import pandas as pd 
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import platform
 import json
 
 operatingsystem = platform.system()
 
 app = Flask(__name__)
+CORS(app)
+
 # if operatingsystem == "Darwin":
 #     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/book'
 # elif operatingsystem == "Windows":
@@ -99,7 +102,11 @@ def indeedScraper(keyword) :
 def getJobs(keyword) :
     result = internJobsScraper(keyword)
     result.update(indeedScraper(keyword))
-    return json.dumps(result)
+    data = {'title' : list(result.keys()), 'url' : list(result.values())}
+    # df = pd.DataFrame.from_dict(data)
+    # output = df.to_json(orient="values")
+    # return df
+    return json.dumps(data)
 
 if __name__ == '__main__':
-    app.run(port=5069, debug=True)
+    app.run(host='0.0.0.0', port=5070, debug=True)
