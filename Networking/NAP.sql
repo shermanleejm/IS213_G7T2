@@ -42,13 +42,14 @@ CREATE TABLE `mailing` (
 DROP TABLE IF EXISTS `namecards`;
 CREATE TABLE `namecards` (
   `uid` varchar(8) NOT NULL,
-  `cid` varchar(8) NOT NULL,
+  `cid` int NOT NULL AUTO_INCREMENT,
   `name` char(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone_num` int(8) DEFAULT NULL,
   `company` char(100) NOT NULL,
   `title` char(100) NOT NULL,
-  `industry` char(100) NOT NULL
+  `industry` char(100) NOT NULL,
+  PRIMARY KEY (`uid`,`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -67,7 +68,7 @@ INSERT INTO `namecards` (`uid`, `cid`, `name`, `email`, `phone_num`, `company`, 
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `uid` varchar(8) NOT NULL,
+  `uid` int NOT NULL AUTO_INCREMENT,
   `name` char(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `pword` char(100) NOT NULL
@@ -78,8 +79,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`uid`, `name`, `email`, `pword`) VALUES
-('U001', 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 'apple123'),
-('U002', 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 'orange123');
+(1, 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 'apple123'),
+(2, 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 'orange123');
 
 --
 -- Indexes for dumped tables
@@ -111,4 +112,6 @@ ALTER TABLE `users`
 -- Constraints for table `namecards`
 --
 ALTER TABLE `namecards`
-  ADD CONSTRAINT `namecards_fk` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`);
+  ADD CONSTRAINT `namecards_fk` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) 
+  ON DELETE CASCADE 
+  ON UPDATE CASCADE;
