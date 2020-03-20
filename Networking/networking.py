@@ -51,7 +51,6 @@ def find_by_name(uid,name):
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
     return jsonify({"message": "Namecard not found"}), 404
 
-
 @app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
 def create_book(uid,email):
     if (Namecard.query.filter_by(uid=uid, email=email).first()):
