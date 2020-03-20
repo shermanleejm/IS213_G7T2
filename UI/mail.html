@@ -95,9 +95,7 @@
             </thead>
           </table><br><br>
           <div>
-            <div>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                href="email.html" class="btn btn-primary btn-gradient" style="float:right">Draft Mail</a></div>
+            <div><button class="btn btn-primary btn-gradient" style="float:right" onclick="myFunction()">Draft Mail</button>
           </div>
         </div>
       </div>
@@ -140,7 +138,7 @@
                 "<td>" + email.company + "</td>" +
                 "<td>" + email.title + "</td>" +
                 "<td>" + email.email + "</td>" +
-                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='' id='emailcheckbox'></td>";
+                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='"+email.email+"' id='emailcheckbox'></td>";
               rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
             }
@@ -242,7 +240,7 @@
                 "<td>" + email.company + "</td>" +
                 "<td>" + email.title + "</td>" +
                 "<td>" + email.email + "</td>" +
-                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='' id='emailcheckbox'></td>";
+                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='"+email.email+"' id='emailcheckbox'></td>";
               rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
             }
@@ -259,6 +257,30 @@
 
 
       });
+    </script>
+    <script>
+      function myFunction() {
+        var selected = new Array();
+ 
+        //Reference the Table.
+        var tblEmail = document.getElementById("emailtable");
+ 
+        //Reference all the CheckBoxes in Table.
+        var chks = tblEmail.getElementsByTagName("INPUT");
+ 
+        // Loop and push the checked CheckBox value in Array.
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked) {
+                selected.push(chks[i].value);
+            }
+        }
+ 
+        //Display the selected CheckBox values.
+        if (selected.length > 0) {
+            alert("Selected values: " + selected.join(","));
+        }
+      }
+
     </script>
   </section>
 
