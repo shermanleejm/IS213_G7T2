@@ -90,7 +90,7 @@
 
               $(async() => {           
             // Change serviceURL to your own
-            var serviceURL = "http://localhost:8001/namecards/U001";
+            var serviceURL = "http://localhost:8001/namecards/1";
      
             try {
                 const response =
@@ -133,8 +133,7 @@
               //Prevents screen from refreshing when submitting
               event.preventDefault();
               var name = $('#name').val()
-              var serviceURL = "http://127.0.0.1:8001/namecards/" + '/' + name;
-              alert("went thru")
+              var serviceURL = "http://127.0.0.1:8001/namecards/" + uid + '/' + name;
               try{
                   const response =
                       await fetch(
