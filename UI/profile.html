@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="favicon.png">
-
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
   </head>
   <body>
     <!-- navbar-->
@@ -34,35 +36,29 @@
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto align-items-start align-items-lg-center">
             <li class="nav-item"><a href="index.html" class="nav-link link-scroll">Home </a></li>
-            <li class="nav-item"><a href="namecard.html" class="nav-link active">Namecards</a></li>
+            <li class="nav-item"><a href="namecard.html" class="nav-link link-scroll">Namecards</a></li>
             <li class="nav-item"><a href="mail.html" class="nav-link link-scroll">Mail</a></li>
             <li class="nav-item"><a href="job.html" class="nav-link link-scroll">Job/Intern</a></li>
-            <li class="nav-item"><a href="profile.html" class="nav-link link-scroll">Profile</a></li>
+            <li class="nav-item"><a href="profile.html" class="nav-link active">Profile</a></li>
           </ul>
+
         </div>
       </nav>
     </header>
-    <section>
+    <section id="hero" class="hero hero-home bg-gray">
       <div class="container">
-        <div class="row block">
-          <div class="col-lg-9">
-            <h1>Namecards</h1><br><br><br>
-            <div>
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="addingnamecard.html" class="btn btn-primary btn-gradient">Add new</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="editnamecard.html" class="btn btn-primary btn-gradient">Edit exisiting</a></div>
-            </div>
-            <section class="newsletter">
-                <div class="text-center">
-                    <form id="newsletterForm" action="#">
-                        <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="">
-                        <button type="submit" class="btn btn-outline-primary submit">Search</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-            <p class="lead">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in</p>
+        <div class="row d-flex">
+          <div class="col-lg-6 text order-2 order-lg-1">
+            <h1>Welcome Back, Lily</h1>
+            <p class="hero-text">Name: Lily</p>
+            <p class="hero-text">Email: lily@gmail.com</p>
+            <p class="hero-text">LinkedIn URL: linkedin.com/in/lily</p> 
+            <p class="hero-text">No. of Namecards: 20</p> 
           </div>
+          <!-- <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+          data-holder-rendered="true"> -->
+          <div class="avatar col-lg-6 order-2 order-lg-2"><img src="img/avatar-5.jpg" alt="100x100" class="rounded-circle"></div>
+          <!-- <div class="col-lg-6 order-1 order-lg-2"><img src="img/Macbook.png" alt="100x100" class="rounded-circle"></div> -->
         </div>
       </div>
     </section>
