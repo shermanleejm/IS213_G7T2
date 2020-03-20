@@ -52,7 +52,7 @@ def find_by_name(uid,name):
     return jsonify({"message": "Namecard not found"}), 404
 
 @app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
-def create_book(uid,email):
+def create_namecard(uid,email):
     if (Namecard.query.filter_by(uid=uid, email=email).first()):
         return jsonify({"message": "An email '{}' already exists.".format(email)}), 400
 
@@ -68,4 +68,4 @@ def create_book(uid,email):
     return jsonify(book.json()), 201
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=8001, debug=True)
