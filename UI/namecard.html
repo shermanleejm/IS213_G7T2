@@ -25,6 +25,20 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="favicon.png">
 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
   </head>
   <body>
     <!-- navbar-->
@@ -52,16 +66,105 @@
             </div>
             <section class="newsletter">
                 <div class="text-center">
-                    <form id="newsletterForm" action="#">
+                    <form id="NamecardSearch" >
                         <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="">
+                        <input type="text" name="name" id="name" placeholder="">
                         <button type="submit" class="btn btn-outline-primary submit">Search</button>
                         </div>
                     </form>
+                    <table id="namecardtable" class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Phone Number</th>
+                          <th scope="col">Company</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Industry</th>
+                        </tr>
+                      </thead>
+                    </table>
                 </div>
             </section>
-            <p class="lead">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in</p>
+            <script>
+
+              $(async() => {           
+            // Change serviceURL to your own
+            var serviceURL = "http://localhost:8001/namecards/U001";
+     
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                var namecards = data.namecards; //the arr is in data.books of the JSON data
+     
+                // array or array.length are falsy
+                if (!namecards || !namecards.length) {
+                    showError('Namecard list empty or undefined.')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+                    for (const namecard of namecards) {
+                        eachRow =
+                          "<td>" + namecard.name + "</td>" +
+                          "<td>" + namecard.email + "</td>" +
+                          "<td>" + namecard.phone_num + "</td>" +
+                          "<td>" + namecard.company + "</td>"+
+                          "<td>" + namecard.title + "</td>"+
+                          "<td>" + namecard.industry + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                    }
+                    // add all the rows to the table
+                    $('#namecardtable').append(rows);
+                }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                ('There is a problem retrieving namecards data, please try again later.<br />'+error);
+           
+        } // error
+    });
+
+
+            $("#NamecardSearch").submit(async (event) => {
+              //Prevents screen from refreshing when submitting
+              event.preventDefault();
+              var name = $('#name').val()
+              var serviceURL = "http://127.0.0.1:8001/namecards/" + '/' + name;
+              alert("went thru")
+              try{
+                  const response =
+                      await fetch(
+                          serviceURL, { method: 'GET' }
+                      );
+                  
+                  if (!response.ok) {
+                      alert("error occured")
+                      
+                  } else {
+                      const namecard = await response.json();
+                      console.log(namecard);
+                      rows = "<tr>" +
+                              "<td>" + namecard.name + "</td>" +
+                              "<td>" + namecard.email + "</td>" +
+                              "<td>" + namecard.phone_num + "</td>" +
+                              "<td>" + namecard.company + "</td>"+
+                              "<td>" + namecard.title + "</td>"+
+                              "<td>" + namecard.industry + "</td>"+
+                              "</tr>";
+                      $('#namecardtable').append(rows);
+  
+                  }
+                  
+              } catch (error) {
+                  showError
+                  ('There is a problem retrieving namecards data, please try again later.<br />'+error);
+              }     
+          });
+          </script>
           </div>
         </div>
       </div>
