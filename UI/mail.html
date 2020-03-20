@@ -64,11 +64,12 @@
 
           <!--Dropdown buttons-->
           <div class="dropdown">
-            <select id="company">
-              <option value="">COMPANY</option>
+            <select class="form-control" id="company">
+              <option selected disabled hidden value="">Company</option>
             </select>
-            <select id="industry">
-              <option value="">INDUSTRY</option>
+            <br>
+            <select class="form-control" id="industry">
+              <option selected disabled hidden value="">Industry</option>
             </select>
           </div><br>
           <!--Buttons for filter and clear-->
@@ -76,7 +77,8 @@
             <div>
               <form method="GET" action="mail.html" id="filteremail">
                 <input type="submit" value="Search Namecards" class="btn btn-primary">
-              </form><a href="#" class="btn btn-outline-primary">Clear</a>
+              </form>
+              
             </div>
           </div><br>
           <!--Table-->
@@ -145,6 +147,10 @@
             // add all the rows to the table
             $('#emailtable').append(rows);
 
+            //duplicate company array
+            dup_company = []
+            //duplicate industry array
+            dup_industry = []
             var companyrows = "";
             for (const email of emails) {
               eachcompanyRow =
@@ -152,7 +158,7 @@
               companyrows += eachcompanyRow;
 
             }
-            // add all the rows to the table
+            // add all the rows to the dropdown company
             $('#company').append(companyrows);
 
             var industryrows = "";
@@ -164,6 +170,7 @@
             }
             // add all the rows to the table
             $('#industry').append(industryrows);
+            
           }
         } catch (error) {
           // Errors when calling the service; such as network error, 
@@ -172,6 +179,7 @@
         } // error
       });
     </script>
+    <!--After pressing the button-->
     <script>
       // Helper function to display error message
       function showError(message) {
@@ -189,6 +197,7 @@
       $("#filteremail").submit(async (event) => {
         var table = document.getElementById("emailtable");
         //or use :  var table = document.all.tableid;
+        
         for (var i = table.rows.length - 1; i > 0; i--) {
           table.deleteRow(i);
         }
@@ -200,14 +209,14 @@
           var e1 = document.getElementById("industry");
           var result1 = e1.options[e1.selectedIndex].value;
           //$('#isbn13').val();
-          if (result == "" && result1==""){
+          if (result == "" && result1 == "") {
             var serviceURL = "http://127.0.0.1:5000/email/001";
-          }else if (result == "" && result1!=""){
-            var serviceURL = "http://127.0.0.1:5000/email/001&"+result1;
-          }else if (result != "" && result1==""){
-            var serviceURL = "http://127.0.0.1:5000/email/001&"+result;
-          }else{
-            var serviceURL = "http://127.0.0.1:5000/email/001&" + result+"&"+result1;
+          } else if (result == "" && result1 != "") {
+            var serviceURL = "http://127.0.0.1:5000/email/001&" + result1;
+          } else if (result != "" && result1 == "") {
+            var serviceURL = "http://127.0.0.1:5000/email/001&" + result;
+          } else {
+            var serviceURL = "http://127.0.0.1:5000/email/001&" + result + "&" + result1;
           }
           const response =
             await fetch(
