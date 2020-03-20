@@ -27,6 +27,9 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `mailing`
 --
+DROP DATABASE IF EXISTS nap;
+CREATE DATABASE nap;
+USE nap;
 
 DROP TABLE IF EXISTS `mailing`;
 CREATE TABLE IF NOT EXISTS `mailing` (
