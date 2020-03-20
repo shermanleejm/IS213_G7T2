@@ -45,6 +45,10 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     
                 </tr>
             </thead>
@@ -58,7 +62,7 @@
         function showError(message) {
             // Hide the table and button in the event of error
             //$('#booksTable').hide();
-            $('#addBookBtn').hide();
+            //$('#addBookBtn').hide();
     
             // Display an error under the main container
             $('#main-container')
@@ -86,8 +90,13 @@
                     var rows = "";
                     for (const email of emails) {
                         eachRow =
-                            "<td>" + email.name + "</td>" +
-                            "<td>" + email.email + "</td>";
+                        "<td>" + email.name + "</td>" +
+                          "<td>" + email.industry + "</td>" +
+                          "<td>" + email.company + "</td>" +
+                          "<td>" + email.title + "</td>" +
+                          "<td>" + email.email + "</td>"+
+                          "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='' id='emailcheckbox'></td>";
+                      
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
                     }
