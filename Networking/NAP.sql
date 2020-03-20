@@ -21,6 +21,9 @@ USE `NAP`;
 --
 -- Table structure for table `mailing`
 --
+DROP DATABASE IF EXISTS nap;
+CREATE DATABASE nap;
+USE nap;
 
 DROP TABLE IF EXISTS `mailing`;
 CREATE TABLE `mailing` (
