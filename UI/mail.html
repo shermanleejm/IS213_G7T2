@@ -26,16 +26,13 @@
   <!-- Favicon-->
   <link rel="shortcut icon" href="favicon.png">
 
-  <script 
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
     integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
     crossorigin="anonymous"></script>
-    
-    <script 
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 </head>
@@ -67,41 +64,20 @@
 
           <!--Dropdown buttons-->
           <div class="dropdown">
-            <button class="btn dropdown-toggle btn-primary btn-gradient" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Industry
-            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-            <button class="btn dropdown-toggle btn-primary btn-gradient" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Company
-            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-            <button class="btn dropdown-toggle btn-primary btn-gradient" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Title
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+            <select id="company">
+              <option value="">COMPANY</option>
+            </select>
+            <select id="industry">
+              <option value="">INDUSTRY</option>
+            </select>
           </div><br>
           <!--Buttons for filter and clear-->
           <div>
             <div>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                href="#"
-                class="btn btn-outline-primary">Filter</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                href="#" class="btn btn-outline-primary">Clear</a></div>
+              <form method="GET" action="mail.html" id="filteremail">
+                <input type="submit" value="Search Namecards" class="btn btn-primary">
+              </form><a href="#" class="btn btn-outline-primary">Clear</a>
+            </div>
           </div><br>
           <!--Table-->
           <table id="emailtable" class="table">
@@ -168,12 +144,111 @@
             }
             // add all the rows to the table
             $('#emailtable').append(rows);
+
+            var companyrows = "";
+            for (const email of emails) {
+              eachcompanyRow =
+                "<option value='" + email.company + "'>" + email.company + "</option>";
+              companyrows += eachcompanyRow;
+
+            }
+            // add all the rows to the table
+            $('#company').append(companyrows);
+
+            var industryrows = "";
+            for (const email of emails) {
+              eachindustryRow =
+                "<option value='" + email.industry + "'>" + email.industry + "</option>";
+              industryrows += eachindustryRow;
+
+            }
+            // add all the rows to the table
+            $('#industry').append(industryrows);
           }
         } catch (error) {
           // Errors when calling the service; such as network error, 
           // service offline, etc
           showError('There is a problem retrieving namecard data, please try again later.<br />' + error);
         } // error
+      });
+    </script>
+    <script>
+      // Helper function to display error message
+      function showError(message) {
+        // Hide the table and button in the event of error
+
+
+
+        // Display an error under the main container
+        $('#main-container')
+          .append("<label>" + message + "</label>");
+      }
+
+      // anonymous async function 
+      // - using await requires the function that calls it to be async
+      $("#filteremail").submit(async (event) => {
+        var table = document.getElementById("emailtable");
+        //or use :  var table = document.all.tableid;
+        for (var i = table.rows.length - 1; i > 0; i--) {
+          table.deleteRow(i);
+        }
+        event.preventDefault();
+
+        try {
+          var e = document.getElementById("company");
+          var result = e.options[e.selectedIndex].value;
+          var e1 = document.getElementById("industry");
+          var result1 = e1.options[e1.selectedIndex].value;
+          //$('#isbn13').val();
+          if (result == "" && result1==""){
+            var serviceURL = "http://127.0.0.1:5000/email/001";
+          }else if (result == "" && result1!=""){
+            var serviceURL = "http://127.0.0.1:5000/email/001&"+result1;
+          }else if (result != "" && result1==""){
+            var serviceURL = "http://127.0.0.1:5000/email/001&"+result;
+          }else{
+            var serviceURL = "http://127.0.0.1:5000/email/001&" + result+"&"+result1;
+          }
+          const response =
+            await fetch(
+              serviceURL, { method: 'GET' }
+            );
+          const data = await response.json();
+          if (response.ok) {
+            console.log(data)
+
+          }
+          var emails = data.email; //the arr is in data.books of the JSON data
+          console.log(data)
+          // array or array.length are falsy
+          if (!emails || !emails.length) {
+            showError('----- list empty or undefined.')
+          } else {
+            // for loop to setup all table rows with obtained book data
+            var rows = "";
+            for (const email of emails) {
+              eachRow =
+                "<td>" + email.name + "</td>" +
+                "<td>" + email.industry + "</td>" +
+                "<td>" + email.company + "</td>" +
+                "<td>" + email.title + "</td>" +
+                "<td>" + email.email + "</td>" +
+                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='' id='emailcheckbox'></td>";
+              rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+
+            }
+            // add all the rows to the table
+            $('#emailtable').append(rows);
+          }
+        }
+        catch (error) {
+          // Errors when calling the service; such as network error, 
+          // service offline, etc
+          showError
+            ('There is a problem retrieving books data, please try again later.<br />' + error);
+        } // error
+
+
       });
     </script>
   </section>
@@ -194,8 +269,8 @@
   <!---->
   <script>
     (function (b, o, i, l, e, r) {
-    b.GoogleAnalyticsObject = l; b[l] || (b[l] =
-      function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
+      b.GoogleAnalyticsObject = l; b[l] || (b[l] =
+        function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
       e = o.createElement(i); r = o.getElementsByTagName(i)[0];
       e.src = '//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e, r)
