@@ -1,24 +1,20 @@
-import requests
-import json
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from passlib.apps import custom_app_context as pwd_context
-
-# from os import environ
-# add environ if docker is used
+from os import environ
+# docker is being used for all microservices 
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
+
 CORS(app)
 
-# use docker for this so that other people can access our microservice?
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') 
 # add the above code if docker is used 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
+db = SQLAlchemy(app)
 
 
 class User(db.Model):
@@ -37,20 +33,14 @@ class User(db.Model):
 
     def json(self):
         return {"uid": self.uid, "name": self.name, "email": self.email, "pword": self.pword}
-    
-    def hash_password(self, password):
-        self.pword = pwd_context.encrypt(password)
-
-    def verify_password(self, password):
-        return pwd_context.verify(password, self.pword)
 
 # is uid better or email better to check if the user exists?
 # finding an existing user account
-@app.route("/users/<string:uid>") 
+@app.route("/users/<string:email>") 
 # checking if the user exists
-def find_by_account(uid):
+def find_by_account(email):
 
-    user = User.query.filter_by(uid = uid).first() #means they sign it either with their username
+    user = User.query.filter_by(email = email).first() #means they sign it either with their username
     # retrieves the first result when entered via the first function 
 
     if user:
@@ -58,10 +48,10 @@ def find_by_account(uid):
     return jsonify({"message": "This User account does not exist, please try again."}), 404
 
 
-@app.route("/users/<string:uid>", methods=['POST'])
+@app.route("/users/<string:email>", methods=['POST'])
 # creating a new user, throwing an error in case the user already exists
-def create_user(uid):
-    if (User.query.filter_by(uid = uid).first()):
+def create_user(email):
+    if (User.query.filter_by(email = email).first()):
         
         return jsonify({"message": "An account with this username already exists.Please try again with another username."}), 400
 
@@ -82,9 +72,6 @@ def create_user(uid):
 
 if __name__ == '__main__':
     # host = '0.0.0.1"
-    app.run(port=5001, debug=True)
+    app.run(host = '0.0.0.0',port=5000, debug=True)
 # run the programme with any name
 # if you dont add this in it will start looking for app.py
-
-
-
