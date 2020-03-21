@@ -38,7 +38,6 @@
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
-
   </head>
   <body>
     <!-- navbar-->
@@ -87,46 +86,45 @@
                 </div>
             </section>
             <script>
-
               $(async() => {           
-            // Change serviceURL to your own
-            var serviceURL = "http://localhost:8001/namecards/U001";
-     
-            try {
-                const response =
-                 await fetch(
-                   serviceURL, { method: 'GET' }
-                );
-                const data = await response.json();
-                var namecards = data.namecards; //the arr is in data.books of the JSON data
-     
-                // array or array.length are falsy
-                if (!namecards || !namecards.length) {
-                    showError('Namecard list empty or undefined.')
-                } else {
-                    // for loop to setup all table rows with obtained book data
-                    var rows = "";
-                    for (const namecard of namecards) {
-                        eachRow =
-                          "<td>" + namecard.name + "</td>" +
-                          "<td>" + namecard.email + "</td>" +
-                          "<td>" + namecard.phone_num + "</td>" +
-                          "<td>" + namecard.company + "</td>"+
-                          "<td>" + namecard.title + "</td>"+
-                          "<td>" + namecard.industry + "</td>";
-                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+              // Change serviceURL to your own
+                var serviceURL = "http://localhost:8001/namecards";
+        
+                try {
+                    const response =
+                    await fetch(
+                      serviceURL, { method: 'GET' }
+                    );
+                    const data = await response.json();
+                    var namecards = data.namecards; //the arr is in data.books of the JSON data
+        
+                    // array or array.length are falsy
+                    if (!namecards || !namecards.length) {
+                        showError('Namecard list empty or undefined.')
+                    } else {
+                        // for loop to setup all table rows with obtained book data
+                        var rows = "";
+                        for (const namecard of namecards) {
+                            eachRow =
+                              "<td>" + namecard.name + "</td>" +
+                              "<td>" + namecard.email + "</td>" +
+                              "<td>" + namecard.phone_num + "</td>" +
+                              "<td>" + namecard.company + "</td>"+
+                              "<td>" + namecard.title + "</td>"+
+                              "<td>" + namecard.industry + "</td>";
+                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        }
+                        // add all the rows to the table
+                        $('#namecardtable').append(rows);
                     }
-                    // add all the rows to the table
-                    $('#namecardtable').append(rows);
-                }
-            } catch (error) {
-                // Errors when calling the service; such as network error, 
-                // service offline, etc
-                showError
-                ('There is a problem retrieving namecards data, please try again later.<br />'+error);
-           
-        } // error
-    });
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+                    showError
+                    ('There is a problem retrieving namecards data, please try again later.<br />'+error);
+              
+                  } // error
+              });
 
 
             $("#NamecardSearch").submit(async (event) => {

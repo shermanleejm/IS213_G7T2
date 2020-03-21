@@ -3,6 +3,8 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from passlib.apps import custom_app_context as pwd_context
+
 # from os import environ
 # add environ if docker is used
 
@@ -35,6 +37,12 @@ class User(db.Model):
 
     def json(self):
         return {"uid": self.uid, "name": self.name, "email": self.email, "pword": self.pword}
+    
+    def hash_password(self, password):
+        self.pword = pwd_context.encrypt(password)
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.pword)
 
 # is uid better or email better to check if the user exists?
 # finding an existing user account

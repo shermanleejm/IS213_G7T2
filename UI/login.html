@@ -26,14 +26,13 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-
 </head>
 <body style="background-color: #666666;">
 	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" id="loginForm">
 					<span class="login100-form-title p-b-43">
 						Welcome to Networking Assistance Platform<br>
 						<br>
@@ -41,15 +40,15 @@
 					</span>
 					
 					
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email">
+					<div class="wrap-input100 validate-input" data-validate = "Valid Username is required">
+						<input class="input100" type="text" name = "uid" id="uid">
 						<span class="focus-input100"></span>
-						<span class="label-input100">Email</span>
+						<span class="label-input100">Username</span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="pass">
+						<input class="input100" type="password" name="password" id="password">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Password</span>
 					</div>
@@ -71,19 +70,19 @@
 			
 
 					<div class="container-login100-form-btn">
-						<button onclick="window.location.href='index.html'" class="btn btn-primary navbar-btn btn-shadow btn-gradient btn-block">
+						<button onclick="window.location.href='../processLogin.php'" method='POST' class="btn btn-primary navbar-btn btn-shadow btn-gradient btn-block">
 							Login
 						</button>
 					</div>
 					
-					<div class="text-center p-t-46 p-b-20">
+					<!-- <div class="text-center p-t-46 p-b-20">
 						<span class="txt2">
 							or sign up <a href="#" style="font-size: small;" data-toggle="modal" data-target="#exampleModal" >here</a>
 						</span>
-					</div>
+					</div>					 -->
 
 					<!-- signup-->
-					<div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade">
+					<!-- <div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade">
 						<div role="document" class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -100,14 +99,15 @@
 								<label for="email">Email Address:</label>
 								<input type="text" name="email" id="email">
 								</div>
+							
 								<div class="form-group">
-								<button type="submit" class="submit btn btn-primary btn-shadow btn-gradient" style="float:right">Signup</button>
+								<button type="submit" name = "signup" class="submit btn btn-primary btn-shadow btn-gradient" style="float:right">Signup</button>
 								</div>
 							</form>
 							</div>
 						</div>
 						</div>
-					</div>
+					</div> -->
 
 					<!-- <div class="login100-form-social flex-c-m">
 						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
@@ -126,6 +126,8 @@
 			</div>
 		</div>
 	</div>
+
+
 	
 	
 
