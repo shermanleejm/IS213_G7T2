@@ -87,35 +87,32 @@
             </section>
             <script>
               $(async() => {           
-              // Change serviceURL to your own
-                var serviceURL = "http://localhost:8001/namecards";
-        
-                try {
-                    const response =
-                    await fetch(
-                      serviceURL, { method: 'GET' }
-                    );
-                    const data = await response.json();
-                    var namecards = data.namecards; //the arr is in data.books of the JSON data
-        
-                    // array or array.length are falsy
-                    if (!namecards || !namecards.length) {
-                        showError('Namecard list empty or undefined.')
-                    } else {
-                        // for loop to setup all table rows with obtained book data
-                        var rows = "";
-                        for (const namecard of namecards) {
-                            eachRow =
-                              "<td>" + namecard.name + "</td>" +
-                              "<td>" + namecard.email + "</td>" +
-                              "<td>" + namecard.phone_num + "</td>" +
-                              "<td>" + namecard.company + "</td>"+
-                              "<td>" + namecard.title + "</td>"+
-                              "<td>" + namecard.industry + "</td>";
-                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-                        }
-                        // add all the rows to the table
-                        $('#namecardtable').append(rows);
+            // Change serviceURL to your own
+            var serviceURL = "http://localhost:8001/namecards/1";
+     
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                var namecards = data.namecards; //the arr is in data.books of the JSON data
+     
+                // array or array.length are falsy
+                if (!namecards || !namecards.length) {
+                    showError('Namecard list empty or undefined.')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+                    for (const namecard of namecards) {
+                        eachRow =
+                          "<td>" + namecard.name + "</td>" +
+                          "<td>" + namecard.email + "</td>" +
+                          "<td>" + namecard.phone_num + "</td>" +
+                          "<td>" + namecard.company + "</td>"+
+                          "<td>" + namecard.title + "</td>"+
+                          "<td>" + namecard.industry + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                     }
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
@@ -131,8 +128,7 @@
               //Prevents screen from refreshing when submitting
               event.preventDefault();
               var name = $('#name').val()
-              var serviceURL = "http://127.0.0.1:8001/namecards/" + '/' + name;
-              alert("went thru")
+              var serviceURL = "http://127.0.0.1:8001/namecards/" + uid + '/' + name;
               try{
                   const response =
                       await fetch(
