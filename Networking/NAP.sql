@@ -13,10 +13,10 @@ CREATE TABLE mailing (
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-  uid INT NOT NULL ,
+  uid varchar(30) NOT NULL ,
   name char(100) NOT NULL,
   email varchar(100) NOT NULL,
-  pword char(100) NOT NULL,
+  password text(1000) NOT NULL,
   PRIMARY KEY (uid)
 );
 
@@ -26,7 +26,7 @@ INSERT INTO users VALUES
 
 DROP TABLE IF EXISTS namecards;
 CREATE TABLE namecards (
-  uid INT NOT NULL,
+  uid varchar(30) NOT NULL,
   cid INT AUTO_INCREMENT PRIMARY KEY,
   name varchar(100) NOT NULL,
   email varchar(100) NOT NULL,

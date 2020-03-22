@@ -38,7 +38,6 @@
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
-
   </head>
   <body>
     <!-- navbar-->
@@ -87,7 +86,6 @@
                 </div>
             </section>
             <script>
-
               $(async() => {           
             // Change serviceURL to your own
             var serviceURL = "http://localhost:8001/namecards/1";
@@ -116,17 +114,14 @@
                           "<td>" + namecard.industry + "</td>";
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                     }
-                    // add all the rows to the table
-                    $('#namecardtable').append(rows);
-                }
-            } catch (error) {
-                // Errors when calling the service; such as network error, 
-                // service offline, etc
-                showError
-                ('There is a problem retrieving namecards data, please try again later.<br />'+error);
-           
-        } // error
-    });
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+                    showError
+                    ('There is a problem retrieving namecards data, please try again later.<br />'+error);
+              
+                  } // error
+              });
 
 
             $("#NamecardSearch").submit(async (event) => {
