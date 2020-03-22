@@ -44,7 +44,7 @@
 	<div class="limiter">
 		<div class="container-login100" id = "login">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" id="loginForm" action="http://127.0.0.1:8000/users/login">
+				<form class="login100-form validate-form" id="loginform">
 					<span class="login100-form-title p-b-43">
 						Welcome to Networking Assistance Platform<br>
 						<br>
@@ -128,7 +128,7 @@
 						</div>
 					</div>
 
-					<div class="login100-form-social flex-c-m">
+					<!-- <div class="login100-form-social flex-c-m">
 						<a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
 							<i class="fa fa-facebook-f" aria-hidden="true"></i>
 						</a>
@@ -137,7 +137,7 @@
 							<i class="fa fa-twitter" aria-hidden="true"></i>
 						</a>
 						
-					</div>
+					</div> -->
 				
 
 				<div class="login100-more" style="background-image: url('images/bg002.jpg');">
@@ -147,15 +147,16 @@
 	</div>
 
 	<script>
-		$("#signupform").submit(async (event) => {
-            //Prevents screen from refreshing when submitting
+		$("#loginform").submit(async (event) => {
+			//Prevents screen from refreshing when submitting
             event.preventDefault();
             var uid = $('#uid').val()
             var password = $('#password').val()
 			var serviceURL = "http://127.0.0.1:8000/users/login";
 			
             try{
-				alert(uid);
+				console.log(JSON.stringify
+						({ uid: uid, password:password}))
                 const response =
                     await fetch(
                         serviceURL, { method: 'POST',
@@ -169,9 +170,8 @@
                     error = JSON.stringify(error);
                     $('#login') .append("<label>"+error+"</label>");
                 } else {
-                    const book = await response.json();
-                    console.log(book);
-                    $('#login') .append("<label> Successfuly created account </label>");
+					// console.log(here)
+                    window.location.replace("index.html");
 
                 }
                 
@@ -192,6 +192,10 @@
 			var serviceURL = "http://127.0.0.1:8000/users/signup";
 			
             try{
+
+				// alert(name: name);
+				// alert(email: email);
+				// alert(password:password);
                 const response =
                     await fetch(
                         serviceURL, { method: 'POST',
@@ -199,12 +203,13 @@
                         body: JSON.stringify
 						({ uid: uid, name: name, 
 							email: email, password:password})
-                    });
+					});
+
                 
                 if (!response.ok) {
                     var error = await response.json();
                     error = JSON.stringify(error);
-                    // $('#main-container') .append("<label>"+error+"</label>");
+                    $('#signupPage') .append("<label>"+error+"</label>");
                 } else {
                     const book = await response.json();
                     console.log(book);
@@ -214,7 +219,7 @@
                 
             } catch (error) {
                 alert
-                ('There is a problem adding books data, please try again later.<br />'+error);
+				('There is a problem adding books data, please try again later.<br />'+error);
             }     
         });
 	</script>

@@ -44,32 +44,31 @@ class User(db.Model):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password)
 
-@app.route('/users/login')
+@app.route('/users/login',  methods=['POST'])
 def verify_password():
     uid = request.json.get('uid')
     password = request.json.get('password')
     user = User.query.filter_by(uid = uid).first() #means they sign it either with their username
 
-    if not user or not check_password_hash(user.password, password):
-            flash('Please check your login details and try again.')
-            return redirect(url_for('login.html')) # if user doesn't exist or password is wrong, reload the page
+    if not user or not user.verify_password(password):
+            return jsonify({"message": "Please check your login details and try again."}), 400 # if user doesn't exist or password is wrong, reload the page
 
         # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('home.html'))
+    return jsonify({'username': user.uid}), 201
 
 
 # is uid better or email better to check if the user exists?
 # finding an existing user account
-@app.route("/users/<string:email>") 
-# checking if the user exists
-def find_by_account(email):
+# @app.route("/users/<string:email>") 
+# # checking if the user exists
+# def find_by_account(email):
 
-    user = User.query.filter_by(email = email).first() #means they sign it either with their username
-    # retrieves the first result when entered via the first function 
+#     user = User.query.filter_by(email = email).first() #means they sign it either with their username
+#     # retrieves the first result when entered via the first function 
 
-    if user:
-        return jsonify(user.json())
-    return jsonify({"message": "This User account does not exist, please try again."}), 404
+#     if user:
+#         return jsonify(user.json())
+#     return jsonify({"message": "This User account does not exist, please try again."}), 404
 
 
 @app.route("/users/signup", methods=['POST'])
@@ -80,7 +79,7 @@ def new_user():
     name = request.json.get('name')
     email = request.json.get('email')
 
-    if uid is None and password is None and email is None and name is None:
+    if uid is None or password is None or email is None or name is None:
         return jsonify({"message": "Missing field"}), 401
     # missing arguments
     if User.query.filter_by(uid=uid).first() is not None:# existing user
