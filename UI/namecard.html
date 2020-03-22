@@ -61,7 +61,7 @@
           <div class="col-lg-9">
             <h1>Namecards</h1><br><br><br>
             <div>
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="addingnamecard.html" class="btn btn-primary btn-gradient">Add new</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="editnamecard.html" class="btn btn-primary btn-gradient">Edit exisiting</a></div>
+              <div><a href="editnamecard.html" class="btn btn-primary btn-gradient">Edit exisiting</a></div>
             </div>
             <section class="newsletter">
                 <div class="text-center">
@@ -114,10 +114,11 @@
                           "<td>" + namecard.industry + "</td>";
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                     }
-                } catch (error) {
+                }
+              } catch (error) {
                     // Errors when calling the service; such as network error, 
                     // service offline, etc
-                    showError
+                    alert
                     ('There is a problem retrieving namecards data, please try again later.<br />'+error);
               
                   } // error
@@ -128,7 +129,7 @@
               //Prevents screen from refreshing when submitting
               event.preventDefault();
               var name = $('#name').val()
-              var serviceURL = "http://127.0.0.1:8001/namecards/" + uid + '/' + name;
+              var serviceURL = "http://127.0.0.1:8001/namecards/1" + '&' + name;
               try{
                   const response =
                       await fetch(
@@ -139,22 +140,26 @@
                       alert("error occured")
                       
                   } else {
-                      const namecard = await response.json();
-                      console.log(namecard);
-                      rows = "<tr>" +
-                              "<td>" + namecard.name + "</td>" +
-                              "<td>" + namecard.email + "</td>" +
-                              "<td>" + namecard.phone_num + "</td>" +
-                              "<td>" + namecard.company + "</td>"+
-                              "<td>" + namecard.title + "</td>"+
-                              "<td>" + namecard.industry + "</td>"+
-                              "</tr>";
+                      const data = await response.json();
+                      console.log(data.namecards);
+                      const namecards=data.namecards
+                      var rows = "";
+                      for (const namecard of namecards) {
+                          eachRow =
+                            "<td>" + namecard.name + "</td>" +
+                            "<td>" + namecard.email + "</td>" +
+                            "<td>" + namecard.phone_num + "</td>" +
+                            "<td>" + namecard.company + "</td>"+
+                            "<td>" + namecard.title + "</td>"+
+                            "<td>" + namecard.industry + "</td>";
+                          rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                      }
                       $('#namecardtable').append(rows);
   
                   }
                   
               } catch (error) {
-                  showError
+                  alert
                   ('There is a problem retrieving namecards data, please try again later.<br />'+error);
               }     
           });
