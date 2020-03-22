@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -95,11 +96,13 @@
             </thead>
           </table><br><br>
           <div>
+            
             <div><button class="btn btn-primary btn-gradient" style="float:right" onclick="myFunction()">Draft Mail</button>
           </div>
         </div>
       </div>
     </div>
+    <!--when page load, retrieve all records in namecards table base on the log in user-->
     <script>
       // Helper function to display error message
       function showError(message) {
@@ -183,8 +186,6 @@
       function showError(message) {
         // Hide the table and button in the event of error
 
-
-
         // Display an error under the main container
         $('#main-container')
           .append("<label>" + message + "</label>");
@@ -195,7 +196,7 @@
       $("#filteremail").submit(async (event) => {
         var table = document.getElementById("emailtable");
         //or use :  var table = document.all.tableid;
-        
+        //remove all table rowsafter filtering
         for (var i = table.rows.length - 1; i > 0; i--) {
           table.deleteRow(i);
         }
@@ -277,8 +278,11 @@
  
         //Display the selected CheckBox values.
         if (selected.length > 0) {
-            alert("Selected values: " + selected.join(","));
+        //get all checkedvalue
+            checked_value = selected.join(",");
         }
+        localStorage.setItem("checked",checked_value);
+        window.location.href = "email.html";
       }
 
     </script>

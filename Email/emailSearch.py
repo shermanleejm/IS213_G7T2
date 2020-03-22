@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import and_, or_, not_
+import smtplib, ssl
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
@@ -61,30 +62,35 @@ def find_by_companyOrindust(uid,either):
         return ({"email": [emails.json() for emails in email]})
     return jsonify({"message": "______ not found."}), 404
 
-# @app.route("/email/<string:uid>&<string:either>")
-# def find_by_either(either):
-#     email = Email.query.filter(
-#         and_(uid=uid,((company=either | title=either, industry=either))))
-#     if len(email.all()) != 0:
-#         return ({"email": [emails.json() for emails in email]})
-#     return jsonify({"message": "______ not found."}), 404
+@app.route("/mail/<string:uid>&<string:emailcheck>&<string:emailsubject>&<string:emailmessage>&<string:senderEmail>&<string:emailPassword>")
+def sendEmail(uid, emailcheck, emailsubject, emailmessage,senderEmail,emailPassword):
+    
+    port = 465  # For SSL
+    #driver.execute_script("window.localStorage.getItem('checked');")
+    smtp_server = "smtp.gmail.com"
+    sender_email = senderEmail  # Enter your address
+    password = emailPassword#input("Type your password and press enter: ")
+    receiver_email = emailcheck.split(",")  # Enter receiver address
+    message_array=[]
+    for rec in range(len(receiver_email)):
+        name=receiver_email[rec][:receiver_email[rec].find("@")]
+        message = """\
+    Subject: """+emailsubject+"""
+
+    Dear """+ name + ",\n" +emailmessage
+        message_array.append(message)
 
 
-# @app.route("/book/<string:isbn13>", methods=['POST'])
-# def create_book(isbn13):
-#     if (Book.query.filter_by(isbn13=isbn13).first()):
-#         return jsonify({"message": "A book with isbn13 '{}' already exists.".format(isbn13)}), 400
-
-#     data = request.get_json()
-#     book = Book(isbn13, **data)
-
-#     try:
-#         db.session.add(book)
-#         db.session.commit()
-#     except:
-#         return jsonify({"message": "An error occurred creating the book."}), 500
-
-#     return jsonify(book.json()), 201
-
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        try:
+            server.login(sender_email, password)
+        except:
+            return jsonify({"message": "Wrong password."})
+        else:
+            for msg in range(len(message_array)):
+                server.sendmail(sender_email, receiver_email[msg], message_array[msg])
+            message_array=[]
+    return jsonify({"message": "Email(s) sent."})
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
