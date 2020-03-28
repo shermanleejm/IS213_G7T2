@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from os import environ
 from sqlalchemy import and_, or_, not_
 import smtplib, ssl
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/nap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #CORS is to cross resource sharing
@@ -92,6 +93,6 @@ def sendEmail(uid, emailcheck, emailsubject, emailmessage,senderEmail,emailPassw
                 server.sendmail(sender_email, receiver_email[msg], message_array[msg])
             message_array=[]
     return jsonify({"message": "Email(s) sent."})
-    
+
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=8004, debug=True)
