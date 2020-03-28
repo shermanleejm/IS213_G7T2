@@ -6,7 +6,8 @@ from sqlalchemy import and_, or_, not_
 import smtplib, ssl
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/nap'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #CORS is to cross resource sharing
