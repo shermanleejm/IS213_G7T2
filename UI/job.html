@@ -56,10 +56,10 @@
         <div class="row block">
           <div class="col-lg-9">
             <h1>Job/Intern</h1>
-            <form action="job.html" method="GET" id="search">
+            <form action="job.html" method="GET" >
               <div class="form-group">
                 <input type="text" id="keyword" ></input>
-                <input type="submit" id="search" class="btn btn-outline-primary submit" >
+                <button type="submit" id="search" class="btn btn-outline-primary submit" >Submit</button>
               </div>
             </form>
             <table id="jobTable" class="table">
@@ -82,7 +82,7 @@
       </footer>
     <!-- Sherman's job stuff-->
     <script>
-      $("#search").submit( async(event) => {
+      $("#search").onclick( async(event) => {
             event.preventDefault();
             // alert("Hi");
             try {
