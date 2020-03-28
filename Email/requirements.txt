@@ -4,5 +4,5 @@ Flask-SQLAlchemy==2.4.1
 mysql-connector-python==8.0.19
 environ==1.0
 environs==7.3.1
-
+pika==1.1.0
 
