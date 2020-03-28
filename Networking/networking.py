@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/nap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -42,7 +42,7 @@ def get_all(uid):
     namecards = Namecard.query.filter_by(uid=uid).all()
     if namecards:
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
-    return jsonify({"message": "No Namecards"})
+    return jsonify({"message": "No Namecards"}),404
 
 @app.route("/namecards/<string:uid>&<string:name>")
 def find_by_name(uid,name):
