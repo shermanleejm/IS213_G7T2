@@ -127,13 +127,14 @@
         var senderEmail = "testingforlife369@gmail.com";
         var emailPass = "Numlock@22";
         var userID = "001";
-        var serviceURL = "http://127.0.0.1:5000/mail/" + userID+"&"+emailchecked+"&"+e+"&"+e1+"&"+senderEmail+"&"+emailPass;
+        var serviceURL = "http://127.0.0.1:8004/mail/" + userID+"&"+emailchecked+"&"+e+"&"+e1+"&"+senderEmail+"&"+emailPass;
         
         const response =
           await fetch(
             serviceURL, { method: 'GET' }
           );
         const data = await response.json();
+        console.log(data)
         if (response.ok) {
           console.log(data)
           if(data["message"]=="Wrong password."){
