@@ -59,16 +59,16 @@ def verify_password():
 
 # is uid better or email better to check if the user exists?
 # finding an existing user account
-# @app.route("/users/<string:email>") 
-# # checking if the user exists
-# def find_by_account(email):
+@app.route("/users/<string:uid>") 
+# checking if the user exists
+def find_by_account(uid):
 
-#     user = User.query.filter_by(email = email).first() #means they sign it either with their username
-#     # retrieves the first result when entered via the first function 
+    user = User.query.filter_by(uid = uid).first() #means they sign it either with their username
+    # retrieves the first result when entered via the first function 
 
-#     if user:
-#         return jsonify(user.json())
-#     return jsonify({"message": "This User account does not exist, please try again."}), 404
+    if user:
+        return jsonify(user.json())
+    return jsonify({"message": "This User account does not exist, please try again."}), 404
 
 
 @app.route("/users/signup", methods=['POST'])

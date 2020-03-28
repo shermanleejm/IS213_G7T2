@@ -82,13 +82,17 @@
                           <th scope="col">Industry</th>
                         </tr>
                       </thead>
+                      <tbody>
+
+                      </tbody>
                     </table>
                 </div>
             </section>
             <script>
+              uid = localStorage.getItem("uid")
               $(async() => {           
                 // Change serviceURL to your own
-                var serviceURL = "http://localhost:8001/namecards/1";
+                var serviceURL = "http://localhost:8001/namecards/" + uid;
         
                 try {
                     const response =
@@ -156,6 +160,7 @@
                             "<td>" + namecard.industry + "</td>";
                           rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                       }
+                      $("#namecardtable tbody > tr").empty();
                       $('#namecardtable').append(rows);
   
                   }

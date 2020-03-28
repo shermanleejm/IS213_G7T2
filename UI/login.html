@@ -153,10 +153,8 @@
             var uid = $('#uid').val()
             var password = $('#password').val()
 			var serviceURL = "http://127.0.0.1:8000/users/login";
-			
+
             try{
-				console.log(JSON.stringify
-						({ uid: uid, password:password}))
                 const response =
                     await fetch(
                         serviceURL, { method: 'POST',
@@ -171,6 +169,7 @@
                     $('#login') .append("<label>"+error+"</label>");
                 } else {
 					// console.log(here)
+					localStorage.setItem("uid",uid)
                     window.location.replace("index.html");
 
                 }
