@@ -59,7 +59,7 @@
             <form action="job.html" method="GET" >
               <div class="form-group">
                 <input type="text" id="keyword" ></input>
-                <button type="submit" id="search" class="btn btn-outline-primary submit" >Submit</button>
+                <button id="search" class="btn btn-outline-primary submit" >Submit</button>
               </div>
             </form>
             <table id="jobTable" class="table">
@@ -69,6 +69,9 @@
                   <th scope="col">URL</th>
                 </tr>
               </thead>
+              <tbody>
+
+              </tbody>
             </table>
           </div>
         </div>
@@ -82,47 +85,58 @@
       </footer>
     <!-- Sherman's job stuff-->
     <script>
-      $("#search").onclick( async(event) => {
-            event.preventDefault();
-            // alert("Hi");
-            try {
-                var keyword = $("#keyword").val(); // getElementsById returns array use "Element"
-                var baseURL = "http://0.0.0.0:8002/jobs/";
-                var targetURL = baseURL + keyword;
-
-                const response = 
-                    await fetch( 
-                        targetURL, { method: 'GET' }
-                    );
-                const data = await response.json();
-
-                if (response.ok) {
-                    // print error
-                    console.log(data);
-                } 
-
-                // job titles
-                var jobTitles = data.title;
-                var urls = data.url;
-                console.log(jobTitles);
-                var rows = "";
-
-                for (let i=0; i < urls.length; i++) {
-                  tempRow = 
-                    "<td>" + jobTitles[i] + "</td>" +
-                    "<td>" + urls[i] + "</td>";
-                  rows += "<tbody><tr>" + tempRow + "</tr></tbody>";
-                }
-                
-                $("#jobTable").append(rows);
-
-                rows = "";
-
-            } catch (error) {
-                console.log(error)
+      (function ($) {
+        $(document).ready(function(){
+          $("#search").click( async(event) => {
+            var table = document.getElementById("jobTable");
+            for (var i=table.rows.length - 1; i > 0; i--) {
+              table.deleteRow(i);
             }
 
-        });
+                event.preventDefault();
+                // alert("Hi");
+                try {
+                    var keyword = $("#keyword").val(); // getElementsById returns array use "Element"
+                    var baseURL = "http://0.0.0.0:5070/jobs/";
+                    var targetURL = baseURL + keyword;
+
+                    const response = 
+                        await fetch( 
+                            targetURL, { method: 'GET' }
+                        );
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // print error
+                        console.log(data);
+                    } 
+
+                    // job titles
+                    var jobTitles = data.title;
+                    var urls = data.url;
+                    console.log(jobTitles);
+                    var rows = "";
+
+                    for (let i=0; i < urls.length; i++) {
+                      tempRow = 
+                        "<td>" + jobTitles[i] + "</td>" +
+                        "<td>" + urls[i] + "</td>";
+                      rows += "<tbody><tr>" + tempRow + "</tr></tbody>";
+                    }
+                    $("#jobTable tbody").empty();
+                    // var header = "<thead><tr><th scope='col'>Job Title</th><th scope='col'>URL</th></tr></thead>";
+                    // $("#jobTable").append(header);
+                    $("#jobTable").append(rows);
+
+                    rows = "";
+
+                } catch (error) {
+                    console.log(error)
+                }
+            });
+          });
+        })(jQuery);
+      
     </script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
     <!---->
