@@ -92,5 +92,6 @@ def sendEmail(uid, emailcheck, emailsubject, emailmessage,senderEmail,emailPassw
                 server.sendmail(sender_email, receiver_email[msg], message_array[msg])
             message_array=[]
     return jsonify({"message": "Email(s) sent."})
+    
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port=5000, debug=True)
+    app.run(host = '0.0.0.0', port=8004, debug=True)
