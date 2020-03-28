@@ -76,8 +76,9 @@
           <!--Buttons for filter and clear-->
           <div>
             <div>
-              <form method="GET" action="mail.html" id="filteremail">
-                <input type="submit" value="Search Namecards" class="btn btn-primary">
+              <form method="GET">
+                <input id="filteremail" type="submit" value="Search" class="btn btn-primary">
+                <input id="clear" type="submit" style="margin-left:30px;" value="Clear" class="btn btn-primary">
               </form>
               
             </div>
@@ -149,27 +150,41 @@
             $('#emailtable').append(rows);
 
             //duplicate company array
-            dup_company = []
-            //duplicate industry array
-            dup_industry = []
+            dup_company = new Array()
+
             var companyrows = "";
             for (const email of emails) {
-              eachcompanyRow =
-                "<option value='" + email.company + "'>" + email.company + "</option>";
-              companyrows += eachcompanyRow;
+              if(dup_company.indexOf(email.company) !== -1){
+                  continue;
+              } else{
+                  eachcompanyRow =
+                  "<option value='" + email.company + "'>" + email.company + "</option>";
+                  companyrows += eachcompanyRow;
+                  dup_company.push(email.company)
+              }
+              
 
             }
-            // add all the rows to the dropdown company
+            // add all the rows to dropdown company
             $('#company').append(companyrows);
+
+            //duplicate industry array
+            dup_industry = new Array()
 
             var industryrows = "";
             for (const email of emails) {
-              eachindustryRow =
-                "<option value='" + email.industry + "'>" + email.industry + "</option>";
-              industryrows += eachindustryRow;
+              if(dup_industry.indexOf(email.industry) !== -1){
+                  continue;
+              } else{
+                eachindustryyRow =
+                  "<option value='" + email.industry + "'>" + email.industry + "</option>";
+                  industryrows += eachindustryyRow;
+                dup_industry.push(email.industry)
+              }
+              
 
             }
-            // add all the rows to the table
+            // add all the rows to dropdown industry
             $('#industry').append(industryrows);
             
           }
@@ -180,7 +195,7 @@
         } // error
       });
     </script>
-    <!--After pressing the button-->
+    <!--After pressing the button Search Namecards-->
     <script>
       // Helper function to display error message
       function showError(message) {
@@ -193,7 +208,7 @@
 
       // anonymous async function 
       // - using await requires the function that calls it to be async
-      $("#filteremail").submit(async (event) => {
+      $("#filteremail").click(async (event) => {
         var table = document.getElementById("emailtable");
         //or use :  var table = document.all.tableid;
         //remove all table rowsafter filtering
@@ -255,10 +270,80 @@
           showError
             ('There is a problem retrieving books data, please try again later.<br />' + error);
         } // error
-
-
       });
     </script>
+    <!--After pressing the button Clear-->
+    <script>
+      // Helper function to display error message
+      function showError(message) {
+        // Hide the table and button in the event of error
+
+        // Display an error under the main container
+        $('#main-container')
+          .append("<label>" + message + "</label>");
+      }
+
+      // anonymous async function 
+      // - using await requires the function that calls it to be async
+      $("#clear").click(async (event) => {
+        var table = document.getElementById("emailtable");
+        //or use :  var table = document.all.tableid;
+        //remove all table rowsafter filtering
+        for (var i = table.rows.length - 1; i > 0; i--) {
+          table.deleteRow(i);
+        }
+        event.preventDefault();
+
+        try {
+          var e = document.getElementById("company");
+          var result = e.options[e.selectedIndex].value;
+          var e1 = document.getElementById("industry");
+          var result1 = e1.options[e1.selectedIndex].value;
+          var serviceURL = "http://127.0.0.1:5000/email/001";
+          
+          const response =
+            await fetch(
+              serviceURL, { method: 'GET' }
+            );
+          const data = await response.json();
+          if (response.ok) {
+            console.log(data)
+
+          }
+          var emails = data.email; //the arr is in data.books of the JSON data
+          console.log(data)
+          // array or array.length are falsy
+          if (!emails || !emails.length) {
+            showError('----- list empty or undefined.')
+          } else {
+            // for loop to setup all table rows with obtained book data
+            var rows = "";
+            for (const email of emails) {
+              eachRow =
+                "<td>" + email.name + "</td>" +
+                "<td>" + email.industry + "</td>" +
+                "<td>" + email.company + "</td>" +
+                "<td>" + email.title + "</td>" +
+                "<td>" + email.email + "</td>" +
+                "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class='form-check-input' type='checkbox' value='"+email.email+"' id='emailcheckbox'></td>";
+              rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+
+            }
+            // add all the rows to the table
+            $('#emailtable').append(rows);
+            $('#company').append('<option selected disabled hidden value="">Company</option>')
+            $('#industry').append('<option selected disabled hidden value="">Industry</option>')
+          }
+        }
+        catch (error) {
+          // Errors when calling the service; such as network error, 
+          // service offline, etc
+          showError
+            ('There is a problem retrieving books data, please try again later.<br />' + error);
+        } // error
+      });
+    </script>
+    <!--retrieve all emails from selected checkbox and pass it to email.html - onclick myFunction-->
     <script>
       function myFunction() {
         var selected = new Array();
