@@ -16,8 +16,8 @@ CORS(app)
 
 # add the above code if docker is used 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/nap'
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/nap'
 db = SQLAlchemy(app)
 
 
