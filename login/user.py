@@ -109,8 +109,56 @@ def new_user():
 #     return jsonify(user.json()), 201
 #     # return jsonify({"message":"The account has been successfully created!"}),201
 
+class Email(db.Model):
+    __tablename__ = 'namecards'
+    uid = db.Column(db.String(8), primary_key=True)
+    cid = db.Column(db.String(8), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    phone_num = db.Column(db.Integer)
+    company = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    industry = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, uid, cid, name, email, phone_num, company, title, industry):
+        self.uid = uid
+        self.cid = cid
+        self.name = name
+        self.email = email
+        self.phone_num = phone_num
+        self.company = company
+        self.title = title
+        self.industry = industry
+        
+
+    def json(self):
+        return {"uid": self.uid,"cid": self.cid,"name": self.name, "email": self.email,"phone_num": self.phone_num,
+        "company": self.company,"title": self.title,"industry": self.industry}
+
+
+@app.route("/email/<string:uid>")
+def get_all(uid):
+    email = Email.query.filter_by(uid=uid).all()
+    if email:
+        return jsonify({"email": [emails.json() for emails in email]})
+    return jsonify({"message": "======"})   
+
+@app.route("/email/<string:uid>&<string:company>&<string:industry>")
+def find_by_company_indust(uid, company, industry):
+    email = Email.query.filter_by(uid=uid, company=company, industry=industry).all()
+    if email:
+        return ({"email": [emails.json() for emails in email]})
+    return jsonify({"message": "______ not found."}), 404
+    
+@app.route("/email/<string:uid>&<string:either>")
+def find_by_companyOrindust(uid,either):
+    email = Email.query.filter(Email.uid==uid,(or_(Email.company.like('%'+either+'%'), Email.industry.like('%'+either+'%')))).all()
+    if email:
+        return ({"email": [emails.json() for emails in email]})
+    return jsonify({"message": "______ not found."}), 404
+
 if __name__ == '__main__':
     # host = '0.0.0.1"
-    app.run(host = '0.0.0.0',port=8000, debug=True)
+    app.run(host = '0.0.0.0',port=8004, debug=True)
 # run the programme with any name
 # if you dont add this in it will start looking for app.py
