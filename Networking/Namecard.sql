@@ -1,9 +1,9 @@
-DROP DATABASE IF EXISTS Namecards;
-CREATE DATABASE Namecards;
-USE Namecards;
+DROP DATABASE IF EXISTS Namecard;
+CREATE DATABASE Namecard;
+USE Namecard;
 
-DROP TABLE IF EXISTS namecard;
-CREATE TABLE namecard (
+DROP TABLE IF EXISTS namecards;
+CREATE TABLE namecards (
   uid varchar(30) NOT NULL,
   cid INT AUTO_INCREMENT ,
   name varchar(100) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE namecard (
     ON UPDATE CASCADE
 );
 
-INSERT INTO namecard VALUES
+INSERT INTO namecards VALUES
 (1, 1, 'Robert Downey Jr', 'debwahlee@gmail.com', 87654321, 'Avengers', 'Data Analyst', 'Superhero'),
 (1, 2, 'Chris Evan', 'deborah.lee.2018@sis.smu.edu.sg', 98765432, 'Avengers', 'COO', 'Superhero');
 
