@@ -4,3 +4,4 @@ Flask-SQLAlchemy==2.4.1
 mysql-connector-python==8.0.19
 Flask-HTTPAuth==3.3.0
 passlib==1.7.2
+pika

@@ -1,9 +1,9 @@
-DROP DATABASE IF EXISTS user;
-CREATE DATABASE user;
-USE user;
+DROP DATABASE IF EXISTS userr;
+CREATE DATABASE userr;
+USE userr;
 
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+DROP TABLE IF EXISTS myuser;
+CREATE TABLE myuser (
   uid varchar(30) NOT NULL ,
   name char(100) NOT NULL,
   email varchar(100) NOT NULL,
