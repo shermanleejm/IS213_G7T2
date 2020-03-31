@@ -24,16 +24,18 @@ class User(db.Model):
     uid = db.Column(db.String(8), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(1000), nullable=False)
+    emailpassword = db.Column(db.String(1000), nullable=False)
 
-    def __init__(self,uid,name,email,password):
+    def __init__(self,uid,name,email,password, emailpassword):
         self.uid = uid
         self.name = name
         self.email = email
         self.password = password
+        self.emailpassword = emailpassword
 
     def json(self):
-        return {"uid": self.uid, "name": self.name, "email": self.email, "password": self.password}
+        return {"uid": self.uid, "name": self.name, "email": self.email, "password": self.password, "emailPassword": self.emailpassword}
     
     def hash_password(self, password):
         self.password = pwd_context.encrypt(password)
@@ -75,6 +77,7 @@ def new_user():
     password = request.json.get('password')
     name = request.json.get('name')
     email = request.json.get('email')
+    emailpassword = request.json.get('emailpassword')
 
     if uid is None or password is None or email is None or name is None:
         return jsonify({"message": "Missing field"}), 401
@@ -82,7 +85,7 @@ def new_user():
     if User.query.filter_by(uid=uid).first() is not None:# existing user
         return jsonify({"message": "An account with this username already exists. Please try another username."}), 400
     
-    user = User(uid=uid, name=name, email=email, password=password)
+    user = User(uid=uid, name=name, email=email, password=password, emailpassword=emailpassword)
     user.hash_password(password)
     db.session.add(user)
     db.session.commit()

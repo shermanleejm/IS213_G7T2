@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS Namecard;
-CREATE DATABASE Namecard;
-USE Namecard;
+DROP DATABASE IF EXISTS namecard;
+CREATE DATABASE namecard;
+USE namecard;
 
 DROP TABLE IF EXISTS namecards;
 CREATE TABLE namecards (
