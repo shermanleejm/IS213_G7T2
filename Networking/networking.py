@@ -37,12 +37,13 @@ class Namecard(db.Model):
         return {"uid": self.uid, "cid": self.cid, "name": self.name, "email": self.email, "phone_num":self.phone_num, "company":self.company, "title":self.title, "industry": self.industry}
 
 
-@app.route("/namecards/<string:uid><string:company><string:industry>") #all namecards with defined uid
-def get_all(uid, company, industry):
+@app.route("/namecards/<string:uid>&<string:company>&<string:industry>") #all namecards with defined uid
+def get_namecards(uid, company, industry):
     # namecards = Namecard.query.filter_by(uid=uid).all()
     # if namecards:
     #     return jsonify({"namecards": [namecard.json() for namecard in namecards]})
     # return jsonify({"message": "No Namecards"}),404
+
     conn = pymysql.connect(
         host="localhost",
         user="nap",
@@ -53,7 +54,7 @@ def get_all(uid, company, industry):
     try:
         stmt = conn.cursor()
         sql = '''SELECT * FROM namecards 
-        WHERE uid='%s' AND company='%s' AND industry='%s' '''
+        WHERE uid=%s AND company like %s AND industry like %s '''
         stmt.execute(sql, (uid, company, industry))
         result = stmt.fetchall()
         return jsonify(result)
@@ -85,4 +86,4 @@ def create_namecard(uid,email):
     return jsonify(book.json()), 201
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8002, debug=True)
+    app.run(host="0.0.0.0", port=8001, debug=True)

@@ -105,6 +105,7 @@
     </div>
     <!--when page load, retrieve all records in namecards table base on the log in user-->
     <script>
+      var userID = "sherman";
       // Helper function to display error message
       function showError(message) {
         // Hide the table and button in the event of error
@@ -120,15 +121,20 @@
       // - using await requires the function that calls it to be async
       $(async () => {
         // Change serviceURL to your own
-        var serviceURL = "http://127.0.0.1:8004/email/001";
+        var serviceURL = "http://127.0.0.1:8001/namecards/" + userID +"&%&%";
         try {
           const response =
             await fetch(
               serviceURL, { method: 'GET' }
             );
           const data = await response.json();
+<<<<<<< HEAD
           var emails = data.email; //the arr is in data.books of the JSON data
           console.log(emails)
+=======
+          var emails = data; //the arr is in data.books of the JSON data
+          console.log(data)
+>>>>>>> 3fb3762c9325620637f3ff152b1ca1cb3a93cdd8
           // array or array.length are falsy
           if (!emails || !emails.length) {
             showError('----- list empty or undefined.')
@@ -217,21 +223,24 @@
         }
         event.preventDefault();
 
-        try {
+        try { 
+
           var e = document.getElementById("company");
           var result = e.options[e.selectedIndex].value;
           var e1 = document.getElementById("industry");
           var result1 = e1.options[e1.selectedIndex].value;
           //$('#isbn13').val();
-          if (result == "" && result1 == "") {
-            var serviceURL = "http://127.0.0.1:8004/email/001";
-          } else if (result == "" && result1 != "") {
-            var serviceURL = "http://127.0.0.1:8004/email/001&" + result1;
-          } else if (result != "" && result1 == "") {
-            var serviceURL = "http://127.0.0.1:8004/email/001&" + result;
-          } else {
-            var serviceURL = "http://127.0.0.1:8004/email/001&" + result + "&" + result1;
+
+          if (result == "") {
+            result = "%";
           }
+
+          if (result1 == "") {
+            result1 = "%";
+          }
+
+          var serviceURL = "http://127.0.0.1:8001/namecards/" + userID + "&" + result + "&" + result1;
+
           const response =
             await fetch(
               serviceURL, { method: 'GET' }
@@ -241,7 +250,7 @@
             console.log(data)
 
           }
-          var emails = data.email; //the arr is in data.books of the JSON data
+          var emails = data; //the arr is in data.books of the JSON data
           console.log(data)
           // array or array.length are falsy
           if (!emails || !emails.length) {
@@ -299,7 +308,7 @@
           var result = e.options[e.selectedIndex].value;
           var e1 = document.getElementById("industry");
           var result1 = e1.options[e1.selectedIndex].value;
-          var serviceURL = "http://127.0.0.1:8004/email/001";
+          var serviceURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
           
           const response =
             await fetch(
@@ -310,7 +319,7 @@
             console.log(data)
 
           }
-          var emails = data.email; //the arr is in data.books of the JSON data
+          var emails = data; //the arr is in data.books of the JSON data
           console.log(data)
           // array or array.length are falsy
           if (!emails || !emails.length) {
@@ -387,7 +396,7 @@
   <script src="js/front.js"></script>
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
   <!---->
-  <script>
+  <!-- <script>
     (function (b, o, i, l, e, r) {
       b.GoogleAnalyticsObject = l; b[l] || (b[l] =
         function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
@@ -396,7 +405,7 @@
       r.parentNode.insertBefore(e, r)
     }(window, document, 'script', 'ga'));
     ga('create', 'UA-XXXXX-X'); ga('send', 'pageview');
-  </script>
+  </script> -->
 
 </body>
 
