@@ -128,7 +128,7 @@
             );
           const data = await response.json();
           var emails = data.email; //the arr is in data.books of the JSON data
-          console.log(data)
+          console.log(emails)
           // array or array.length are falsy
           if (!emails || !emails.length) {
             showError('----- list empty or undefined.')

@@ -7,7 +7,7 @@ import smtplib, ssl
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/nap'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #CORS is to cross resource sharing
@@ -48,7 +48,6 @@ def get_all(uid):
     if email:
         return jsonify({"email": [emails.json() for emails in email]})
     return jsonify({"message": "======"})   
-
 
 @app.route("/email/<string:uid>&<string:company>&<string:industry>")
 def find_by_company_indust(uid, company, industry):
