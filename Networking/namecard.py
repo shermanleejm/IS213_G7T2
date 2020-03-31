@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
+import pymysql
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://nap@localhost:3306/nap'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/Namecard'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -37,19 +37,37 @@ class Namecard(db.Model):
         return {"uid": self.uid, "cid": self.cid, "name": self.name, "email": self.email, "phone_num":self.phone_num, "company":self.company, "title":self.title, "industry": self.industry}
 
 
-@app.route("/namecards/<string:uid>") #all namecards with defined uid
-def get_all(uid):
-    namecards = Namecard.query.filter_by(uid=uid).all()
-    if namecards:
-        return jsonify({"namecards": [namecard.json() for namecard in namecards]})
-    return jsonify({"message": "No Namecards"}),404
+@app.route("/namecards/<string:uid>&<string:company>&<string:industry>") #all namecards with defined uid
+def get_namecards(uid, company, industry):
+    # namecards = Namecard.query.filter_by(uid=uid).all()
+    # if namecards:
+    #     return jsonify({"namecards": [namecard.json() for namecard in namecards]})
+    # return jsonify({"message": "No Namecards"}),404
 
-@app.route("/namecards/<string:uid>&<string:name>")
-def find_by_name(uid,name):
-    namecards = Namecard.query.filter(Namecard.name.like('%'+name+'%'), Namecard.uid==uid)
-    if len(namecards.all()) != 0:
-        return jsonify({"namecards": [namecard.json() for namecard in namecards]})
-    return jsonify({"message": "Namecard not found"}), 404
+    conn = pymysql.connect(
+        host="localhost",
+        user="nap",
+        db="Namecard",
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+        stmt = conn.cursor()
+        sql = '''SELECT * FROM namecards 
+        WHERE uid=%s AND company like %s AND industry like %s '''
+        stmt.execute(sql, (uid, company, industry))
+        result = stmt.fetchall()
+        return jsonify(result)
+    finally: 
+        conn.close()
+
+
+# @app.route("/namecards/<string:uid>&<string:name>")
+# def find_by_name(uid,name):
+#     namecards = Namecard.query.filter(Namecard.name.like('%'+name+'%'), Namecard.uid==uid)
+#     if len(namecards.all()) != 0:
+#         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
+#     return jsonify({"message": "Namecard not found"}), 404
 
 @app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
 def create_namecard(uid,email):

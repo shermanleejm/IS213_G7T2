@@ -34,6 +34,7 @@
     <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
     <script src="js/front.js"></script>
+    
   </head>
   <body>
     <!-- navbar-->
@@ -120,7 +121,7 @@
                     for (let i=0; i < urls.length; i++) {
                       tempRow = 
                         "<td>" + jobTitles[i] + "</td>" +
-                        "<td>" + urls[i] + "</td>";
+                        "<td><a href='" + urls[i] + "'>link</a></td>";
                       rows += "<tbody><tr>" + tempRow + "</tr></tbody>";
                     }
                     $("#jobTable tbody").empty();
@@ -138,6 +139,7 @@
         })(jQuery);
       
     </script>
+    <div class="modal"><!-- Place at bottom of page --></div>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
     <!---->
     <!-- <script>
