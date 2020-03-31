@@ -58,7 +58,7 @@
 
           <div id="edit_details" display=>
             <input type="text">
-            <button id="view_button" >View</button>
+            <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">View</button>
           </div>
 
 
@@ -70,7 +70,7 @@
             <p class="hero-text" id="linkedin" >LinkedIn URL: linkedin.com/in/lily</p> 
             <p class="hero-text" id="number_of_namecards" >No. of Namecards: 20</p> 
 
-            <button id="edit_button" >Edit</button>
+            <button id="edit_button" class="btn btn-primary btn-shadow btn-gradient" >Edit</button>
           </div>
 
           
@@ -80,25 +80,45 @@
     </section>
       
     <script>
+    var userID = localStorage.getItem("uid")
+      console.log(userID)
+      $(async () => {
+        console.log("This async function doesnt work")
+        var serviceURL = "http://127.0.0.1:8000/users/" + userID
+
+        try {
+          const response =
+            await fetch(
+              serviceURL, { method: 'GET' }
+            )
+
+          const data = await response.json()
+
+          console.log(data)
+
+        } catch (error) {
+          console.log(error)
+        }
+
+      });
+
+
       $(document).ready(function(){
+
         $("#edit_details").hide();
 
-        var uid = localStorage.getItem("uid"),
-        
-        
-
-
         $('#view_button').click(function() {        
-            $("#edit_details").toggle();
-            $("#details").toggle()
+            $("#edit_details").hide();
+            $("#details").show()
           });
 
         $('#edit_button').click(function() {        
-          $("#edit_details").toggle();
-          $("#details").toggle()
+          $("#edit_details").show();
+          $("#details").hide()
         });
         
       });
+
     </script>
     
     <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
