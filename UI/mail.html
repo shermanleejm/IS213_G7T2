@@ -128,13 +128,10 @@
               serviceURL, { method: 'GET' }
             );
           const data = await response.json();
-<<<<<<< HEAD
           var emails = data.email; //the arr is in data.books of the JSON data
           console.log(emails)
-=======
           var emails = data; //the arr is in data.books of the JSON data
           console.log(data)
->>>>>>> 3fb3762c9325620637f3ff152b1ca1cb3a93cdd8
           // array or array.length are falsy
           if (!emails || !emails.length) {
             showError('----- list empty or undefined.')
