@@ -52,7 +52,6 @@ def sendEmail(emailcheck, emailname, emailsubject, emailmessage, senderEmail, em
             )
         )
     # send the message
-    # always inform Monitoring for logging no matter if successful or not
     channel.basic_publish(exchange=exchangename, routing_key="", body=message)
     return('sent')
     # close the connection to the broker
