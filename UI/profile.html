@@ -59,20 +59,39 @@
       <div class="container">
         <div class="row d-flex"></div>
 
-          <div id="edit_details" display=>
-            <input type="text">
+          <div id="edit_details" class="form-group" >
+            <table>
+              <tr>
+                <td>Username: </td>
+                <td><input type="text" class="form-control" id="edit_username"></td>
+              </tr>
+              <tr>
+                <td>Password: </td>
+                <td><input type="text" class="form-control" id="edit_password"></td>
+              </tr>
+              <tr>
+                <td>Email: </td>
+                <td><input type="text" class="form-control" id="edit_email"></td>
+              </tr>
+              <tr>
+                <td>Email Password: </td>
+                <td><input type="text" class="form-control" id="edit_email_password"></td>
+              </tr>
+            </table>
+
+            
             <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">View</button>
           </div>
 
 
           <div id="details" class="col-lg-6 text order-2 order-lg-1">
-            <h1 id="welcome" >Welcome Back, Lily</h1>
+            <h1 id="welcome" ></h1>
 
-            <p class="hero-text" id="username" >Username: Lily</p>
-            <p class="hero-text" id="email" >Email: lily@gmail.com</p>
-            <p class="hero-text" id="number_of_namecards" >No. of Namecards: 20</p> 
-            <p class="hero-text" id="industry">Most networked with industry: Superheroes</p>
-            <p class="hero-text" id="company">Most networked with company: Avengers</p>
+            <p class="hero-text" id="username" ></p>
+            <p class="hero-text" id="email" ></p>
+            <p class="hero-text" id="number_of_namecards" ></p> 
+            <p class="hero-text" id="industry"></p>
+            <p class="hero-text" id="company"></p>
 
             <button id="edit_button" class="btn btn-primary btn-shadow btn-gradient" >Edit</button>
           </div>
@@ -95,11 +114,11 @@
           serviceURL, { method: 'GET' }
         );
 
-      const data = await response.json();
+      const userInfo = await response.json();
 
       if (response.ok) {
           // print error
-          console.log(data);
+          console.log(userInfo);
       }
 
       var namecardURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
@@ -129,12 +148,17 @@
         console.log(namecardStats)
       }
 
-      document.getElementById("welcome").innerHTML = "Welcome Back, " + data.name;
-      document.getElementById("username").innerHTML = "Username: " + data.uid;
-      document.getElementById("email").innerHTML = "Username: " + data.email;
+      document.getElementById("welcome").innerHTML = "Welcome Back, " + userInfo.name;
+      document.getElementById("username").innerHTML = "Username: " + userInfo.uid;
+      document.getElementById("email").innerHTML = "Email: " + userInfo.email;
       document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numOfNamecards;
       document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
       document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
+
+      document.getElementById("edit_username").placeholder = userInfo.uid;
+      // document.getElementById("edit_password").placeholder = userInfo.password;
+      document.getElementById("edit_email").placeholder = userInfo.email;
+      document.getElementById("edit_email_password").placeholder = userInfo.emailpassword;
 
     });
 
