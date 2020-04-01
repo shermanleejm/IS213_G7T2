@@ -5,6 +5,7 @@ from os import environ
 from flask_httpauth import HTTPBasicAuth
 from passlib.apps import custom_app_context as pwd_context
 from flask import Blueprint
+import pymysql
 
 # docker is being used for all microservices 
 
@@ -90,6 +91,26 @@ def new_user():
     db.session.add(user)
     db.session.commit()
     return jsonify({'username': user.uid}), 201
+
+@app.route("/users/changepassword/<string:userid>&<string:newPassword>", methods=["POST"])
+def changePassword(userid, newPassword) :
+    newHash = pwd_context.encrypt(newPassword)
+    conn = pymysql.connect(
+        host="localhost",
+        user="nap",
+        db="user",
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+        stmt = conn.cursor()
+        sql = '''UPDATE users SET `password`=%s WHERE uid=%s '''
+        stmt.execute( sql, (newHash, userid) )
+        return jsonify({"status": "success"}), 201
+    except: 
+        return jsonify({"status": "failure"})
+    finally: 
+        conn.close()
 
 # def create_user(email):
 #     if (User.query.filter_by(email = email).first()):
