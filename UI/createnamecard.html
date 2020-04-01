@@ -135,21 +135,23 @@
           if (Industry == "") {
             Industry = "-"
           }
+          console.log(Name,Company,phone_number,Email,Title,Industry)
 
-          var serviceURL = "http://127.0.0.1:8001/namecards/" + uid + '&' + Name + "&" + Email + '&' + phone_number + "&" + Company + "&" + Title +'&'+ Industry;
+          // + uid + '&' + Name + "&" + Email + '&' + phone_number + "&" + Company + "&" + Title +'&'+ Industry
+          var serviceURL = "http://127.0.0.1:8001/namecards/create" ;
           try{
               const response =
-                  // await fetch(
-                  //     serviceURL, { method: 'POST',
-                  //     headers: { "Content-Type": "application/json" },
-                  //     body: JSON.stringify
-                  //     ({ uid: uid, Name: Name, Company: Company, 
-                  //       Email: Email, Title:Title, Industry:Industry })
-                  // });
-                  await fetch (
-                    serviceURL, {method:"GET"}
-                  );
-                  
+                  await fetch(
+                      serviceURL, { method: 'POST',
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify
+                      ({ uid: uid, Name: Name, Email: Email, phone_number:phone_number, Company: Company, 
+                        Title:Title, Industry:Industry })
+                      });
+                  // await fetch (
+                  //   serviceURL, {method:"GET"}
+                  // );
+
               if (!response.ok) {
                   var error = await response.json();
                   // error = JSON.stringify(error);
@@ -157,7 +159,7 @@
               } else {
                   const book = await response.json();
                   console.log(book);
-                  $('#main-container') .append("<label> Successfuly added " + name + "'s namecard </label>");
+                  $('#addNamecardForm') .append("<label> Successfuly added " + name + "'s namecard </label>");
 
               }
               
