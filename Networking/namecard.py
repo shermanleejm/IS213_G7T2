@@ -49,7 +49,7 @@ def get_namecards(uid, company, industry):
     conn = pymysql.connect(
         host="localhost",
         user="nap",
-        db="Namecard",
+        db="namecard",
         cursorclass=pymysql.cursors.DictCursor
     )
 
@@ -69,6 +69,46 @@ def get_all(uid):
     if namecards:
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
     return jsonify({"message": "No Namecards"}),404
+
+@app.route("/namecardStats/<string:uid>")
+def getNamecardStats(uid) :
+
+    conn = pymysql.connect(
+        host="localhost",
+        user="nap",
+        db="namecard",
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    result = {"company": [], "industry": []}
+    
+    try:
+        # Most popular company
+        stmt = conn.cursor()
+        sql = '''SELECT company FROM namecards WHERE uid=%s GROUP BY company ORDER BY count(company) DESC LIMIT 1'''
+        stmt.execute(sql, (uid))
+        result["company"] = stmt.fetchone()["company"]
+    
+        stmt1 = conn.cursor()
+        sql = '''SELECT industry FROM namecards WHERE uid=%s GROUP BY industry ORDER BY count(industry) DESC LIMIT 1'''
+        stmt1.execute(sql, (uid))
+        result["industry"] = stmt1.fetchone()["industry"]
+        
+        return jsonify(result)
+
+    finally: 
+        conn.close()
+        return jsonify(result)
+    
+    
+
+
+# @app.route("/namecards/<string:uid>&<string:name>")
+# def find_by_name(uid,name):
+#     namecards = Namecard.query.filter(Namecard.name.like('%'+name+'%'), Namecard.uid==uid)
+#     if len(namecards.all()) != 0:
+#         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
+#     return jsonify({"message": "Namecard not found"}), 404
 
 @app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
 def create_namecard(uid,email):

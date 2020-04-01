@@ -16,8 +16,14 @@ CREATE TABLE namecards (
 );
 
 INSERT INTO namecards VALUES
-("sherman", 1, 'Robert Downey Jr', 'debwahlee@gmail.com', 87654321, 'Avengers', 'Data Analyst', 'Superhero'),
-("sherman", 2, 'Chris Evan', 'deborah.lee.2018@sis.smu.edu.sg', 98765432, 'Avengers', 'COO', 'Superhero');
-
-
-
+("sherman", 1, 'Sherman Lee', 'sherman.lee.2018@sis.smu.edu.sg', 87654321, 'ABC Limited', 'Data Analyst', 'Analytics'),
+("sherman", 2, 'Neo Shi Shiong', 'ssneo.2018@sis.smu.edu.sg', 98765432, 'Decathlon', 'Associate', 'Marketing'),
+("sherman", 3, 'Lee Rui Peng', 'ruipeng.lee.2018@sis.smu.edu.sg', 96492746, 'Siemens', 'Associate', 'IT'),
+("sherman", 4, 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 91623784, 'Shopee', 'Associate', 'Marketing'),
+("sherman", 5, 'Pooja Kumar', 'poojakumar.2018@sis.smu.edu.sg', 99173264, 'ABC Limited', 'Support Staff', 'IT'),
+("sherman", 6, 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 93715409, 'Toko', 'Associate', 'IT'),
+("sherman", 7, 'Tom How', 'tom.how.2017@sob.smu.edu.sg', 98768142, 'Siemens', 'Associate', 'Advertising'),
+("sherman", 8, 'John Low', 'john.low.2018@sob.smu.edu.sg', 95412680, 'Decathlon', 'Support Staff', 'IT'),
+("sherman", 9, 'Wang Shu Rui', 'shurui.wang.2019@sis.smu.edu.sg', 96132654, 'ABC Limited', 'Associate', 'Analytics'),
+("megan", 10, 'Megan Goh', 'megan.goh.2019@sob.smu.edu.sg', 82538751, 'SMU Verts', 'Director', 'Marketing')
+;

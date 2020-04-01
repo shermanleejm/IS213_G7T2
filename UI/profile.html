@@ -34,6 +34,9 @@
         <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
         <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="js/front.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   </head>
   <body>
     <!-- navbar-->
@@ -47,6 +50,14 @@
             <li class="nav-item"><a href="mail.html" class="nav-link link-scroll">Mail</a></li>
             <li class="nav-item"><a href="job.html" class="nav-link link-scroll">Job/Intern</a></li>
             <li class="nav-item"><a href="profile.html" class="nav-link active">Profile</a></li>
+            <li class="nav-item"><a href="login.html" class="nav-link link-scroll" id="logout">Logout</a></li>
+            <script>
+              $( document ).ready(function() {
+                $('#logout').click(function() {
+                  localStorage.clear();
+                });
+              });
+            </script>
           </ul>
 
         </div>
@@ -56,19 +67,49 @@
       <div class="container">
         <div class="row d-flex"></div>
 
-          <div id="edit_details" display=>
-            <input type="text">
-            <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">View</button>
+          <div id="edit_details" class="form-group" >
+            <table>
+              <tr>
+                <td>Full Name:</td>
+                <td><input type="text" class="form-control" id="edit_fullname"></td>
+              </tr>
+              <tr>
+                <td>Username: </td>
+                <td><input type="text" class="form-control" id="edit_username"></td>
+              </tr>
+              <tr>
+                <td>Password: </td>
+                <td><input type="text" class="form-control" id="edit_password"></td>
+              </tr>
+              <tr>
+                <td>Confirm Password: </td>
+                <td><input type="text" class="form-control" id="edit_confirm_password"></td>
+              </tr>
+              <tr>
+                <td>Email: </td>
+                <td><input type="text" class="form-control" id="edit_email"></td>
+              </tr>
+              <tr>
+                <td>Email Password: </td>
+                <td><input type="text" class="form-control" id="edit_email_password"></td>
+              </tr>
+              <tr>
+                <td>Confirm Email Password: </td>
+                <td><input type="text" class="form-control" id="edit_confirm_email_password"></td>
+              </tr>
+            </table>
+            <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">Submit</button>
           </div>
 
 
           <div id="details" class="col-lg-6 text order-2 order-lg-1">
-            <h1 id="welcome" >Welcome Back, Lily</h1>
+            <h1 id="welcome" ></h1>
 
-            <p class="hero-text" id="username" >Username: Lily</p>
-            <p class="hero-text" id="email" >Email: lily@gmail.com</p>
-            <p class="hero-text" id="linkedin" >LinkedIn URL: linkedin.com/in/lily</p> 
-            <p class="hero-text" id="number_of_namecards" >No. of Namecards: 20</p> 
+            <p class="hero-text" id="username" ></p>
+            <p class="hero-text" id="email" ></p>
+            <p class="hero-text" id="number_of_namecards" ></p> 
+            <p class="hero-text" id="industry"></p>
+            <p class="hero-text" id="company"></p>
 
             <button id="edit_button" class="btn btn-primary btn-shadow btn-gradient" >Edit</button>
           </div>
@@ -81,43 +122,122 @@
       
     <script>
     var userID = localStorage.getItem("uid")
-      console.log(userID)
-      $(async () => {
-        console.log("This async function doesnt work")
-        var serviceURL = "http://127.0.0.1:8000/users/" + userID
 
-        try {
-          const response =
-            await fetch(
-              serviceURL, { method: 'GET' }
-            )
+    $(async () => {
 
-          const data = await response.json()
+      var serviceURL = "http://127.0.0.1:8000/users/" + userID;
 
-          console.log(data)
+      const response = 
+        await fetch( 
+          serviceURL, { method: 'GET' }
+        );
 
-        } catch (error) {
-          console.log(error)
+      var userInfo = await response.json();
+
+      if (response.ok) {
+          // print error
+          console.log(userInfo);
+      }
+
+      var namecardURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
+
+      const response2 = 
+      await fetch (
+        namecardURL, {method: "GET"}
+      );
+
+      const namecards = await response2.json();
+      const numOfNamecards = namecards.length;
+
+      if (response2.ok) {
+        console.log(namecards)
+      }
+
+      var namecardStatsURL = "http://127.0.0.1:8001/namecardStats/" + userID;
+
+      const namecardStatsResponse = 
+      await fetch (
+        namecardStatsURL, {method: "GET"}
+      )
+
+      namecardStats = await namecardStatsResponse.json()
+
+      if (namecardStatsResponse.ok) {
+        console.log(namecardStats)
+      }
+
+      document.getElementById("welcome").innerHTML = "Welcome Back, " + userInfo.name;
+      document.getElementById("username").innerHTML = "Username: " + userInfo.uid;
+      document.getElementById("email").innerHTML = "Email: " + userInfo.email;
+      document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numOfNamecards;
+      document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
+      document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
+
+      // put details in edit details table
+      document.getElementById("edit_fullname").placeholder = userInfo.name;
+      document.getElementById("edit_fullname").value = userInfo.name;
+      document.getElementById("edit_username").value = userInfo.uid;
+      document.getElementById("edit_password").value = "";
+      document.getElementById("edit_email").value = userInfo.email;
+      document.getElementById("edit_email_password").value = "";
+      document.getElementById("edit_confirm_email_password").value = "";
+
+    });
+
+    $(document).ready(function(){
+
+      $("#edit_details").hide();
+
+      $('#view_button').click(async() => {
+        var username = document.getElementById("edit_username").value;
+        var fullname = document.getElementById("edit_fullname").value;
+        var password = document.getElementById("edit_password").value;
+        var confirm_password = document.getElementById("edit_confirm_password").value;
+        var email = document.getElementById("edit_email").value;
+        var email_password = document.getElementById("edit_email_password").value;
+        var confirm_email_passsword = document.getElementById("edit_confirm_email_password").value;
+
+        var serviceURL = "http://127.0.0.1:8000/users/" + userID;
+
+        const response = 
+          await fetch( 
+            serviceURL, { method: 'GET' }
+          );
+
+        var userInfo = await response.json();
+
+        // put details in edit details table
+        // document.getElementById("edit_fullname").placeholder = userInfo.name;
+        // document.getElementById("edit_fullname").value = userInfo.name;
+        // document.getElementById("edit_username").value = userInfo.uid;
+        // document.getElementById("edit_password").value = "";
+        // document.getElementById("edit_email").value = userInfo.email;
+        // document.getElementById("edit_email_password").value = "";
+        // document.getElementById("edit_confirm_email_password").value = "";
+
+        
+
+        if (response.ok) {
+            // print error
+            console.log(userInfo);
         }
 
-      });
-
-
-      $(document).ready(function(){
-
+        if (password == confirm_password & confirm_email_passsword == email_password) {
+          console.log("success")
+        } else {
+          console.log("failure")
+        }
+ 
         $("#edit_details").hide();
-
-        $('#view_button').click(function() {        
-            $("#edit_details").hide();
-            $("#details").show()
-          });
-
-        $('#edit_button').click(function() {        
-          $("#edit_details").show();
-          $("#details").hide()
+        $("#details").show();
         });
-        
+
+      $('#edit_button').click( async() => {        
+        $("#edit_details").show();
+        $("#details").hide();
       });
+      
+    });
 
     </script>
     
