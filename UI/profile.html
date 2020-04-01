@@ -50,6 +50,14 @@
             <li class="nav-item"><a href="mail.html" class="nav-link link-scroll">Mail</a></li>
             <li class="nav-item"><a href="job.html" class="nav-link link-scroll">Job/Intern</a></li>
             <li class="nav-item"><a href="profile.html" class="nav-link active">Profile</a></li>
+            <li class="nav-item"><a href="login.html" class="nav-link link-scroll" id="logout">Logout</a></li>
+            <script>
+              $( document ).ready(function() {
+                $('#logout').click(function() {
+                  localStorage.clear();
+                });
+              });
+            </script>
           </ul>
 
         </div>
@@ -62,12 +70,20 @@
           <div id="edit_details" class="form-group" >
             <table>
               <tr>
+                <td>Full Name:</td>
+                <td><input type="text" class="form-control" id="edit_fullname"></td>
+              </tr>
+              <tr>
                 <td>Username: </td>
                 <td><input type="text" class="form-control" id="edit_username"></td>
               </tr>
               <tr>
                 <td>Password: </td>
                 <td><input type="text" class="form-control" id="edit_password"></td>
+              </tr>
+              <tr>
+                <td>Confirm Password: </td>
+                <td><input type="text" class="form-control" id="edit_confirm_password"></td>
               </tr>
               <tr>
                 <td>Email: </td>
@@ -77,10 +93,12 @@
                 <td>Email Password: </td>
                 <td><input type="text" class="form-control" id="edit_email_password"></td>
               </tr>
+              <tr>
+                <td>Confirm Email Password: </td>
+                <td><input type="text" class="form-control" id="edit_confirm_email_password"></td>
+              </tr>
             </table>
-
-            
-            <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">View</button>
+            <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">Submit</button>
           </div>
 
 
@@ -114,7 +132,7 @@
           serviceURL, { method: 'GET' }
         );
 
-      const userInfo = await response.json();
+      var userInfo = await response.json();
 
       if (response.ok) {
           // print error
@@ -128,8 +146,8 @@
         namecardURL, {method: "GET"}
       );
 
-      var namecards = await response2.json();
-      var numOfNamecards = namecards.length;
+      const namecards = await response2.json();
+      const numOfNamecards = namecards.length;
 
       if (response2.ok) {
         console.log(namecards)
@@ -155,30 +173,71 @@
       document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
       document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
 
-      document.getElementById("edit_username").placeholder = userInfo.uid;
-      // document.getElementById("edit_password").placeholder = userInfo.password;
-      document.getElementById("edit_email").placeholder = userInfo.email;
-      document.getElementById("edit_email_password").placeholder = userInfo.emailpassword;
+      // put details in edit details table
+      document.getElementById("edit_fullname").placeholder = userInfo.name;
+      document.getElementById("edit_fullname").value = userInfo.name;
+      document.getElementById("edit_username").value = userInfo.uid;
+      document.getElementById("edit_password").value = "";
+      document.getElementById("edit_email").value = userInfo.email;
+      document.getElementById("edit_email_password").value = "";
+      document.getElementById("edit_confirm_email_password").value = "";
 
     });
 
-      $(document).ready(function(){
+    $(document).ready(function(){
 
+      $("#edit_details").hide();
+
+      $('#view_button').click(async() => {
+        var username = document.getElementById("edit_username").value;
+        var fullname = document.getElementById("edit_fullname").value;
+        var password = document.getElementById("edit_password").value;
+        var confirm_password = document.getElementById("edit_confirm_password").value;
+        var email = document.getElementById("edit_email").value;
+        var email_password = document.getElementById("edit_email_password").value;
+        var confirm_email_passsword = document.getElementById("edit_confirm_email_password").value;
+
+        var serviceURL = "http://127.0.0.1:8000/users/" + userID;
+
+        const response = 
+          await fetch( 
+            serviceURL, { method: 'GET' }
+          );
+
+        var userInfo = await response.json();
+
+        // put details in edit details table
+        // document.getElementById("edit_fullname").placeholder = userInfo.name;
+        // document.getElementById("edit_fullname").value = userInfo.name;
+        // document.getElementById("edit_username").value = userInfo.uid;
+        // document.getElementById("edit_password").value = "";
+        // document.getElementById("edit_email").value = userInfo.email;
+        // document.getElementById("edit_email_password").value = "";
+        // document.getElementById("edit_confirm_email_password").value = "";
+
+        
+
+        if (response.ok) {
+            // print error
+            console.log(userInfo);
+        }
+
+        if (password == confirm_password & confirm_email_passsword == email_password) {
+          console.log("success")
+        } else {
+          console.log("failure")
+        }
+ 
         $("#edit_details").hide();
-
-        
-
-        $('#view_button').click(function() {        
-            $("#edit_details").hide();
-            $("#details").show()
-          });
-
-        $('#edit_button').click(function() {        
-          $("#edit_details").show();
-          $("#details").hide()
+        $("#details").show();
         });
-        
+
+      $('#edit_button').click( async() => {        
+        $("#edit_details").show();
+        $("#details").hide();
       });
+      
+    });
 
     </script>
     

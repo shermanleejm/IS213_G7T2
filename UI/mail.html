@@ -53,6 +53,14 @@
           <li class="nav-item"><a href="mail.html" class="nav-link active">Mail</a></li>
           <li class="nav-item"><a href="job.html" class="nav-link link-scroll">Job/Intern</a></li>
           <li class="nav-item"><a href="profile.html" class="nav-link link-scroll">Profile</a></li>
+          <li class="nav-item"><a href="login.html" class="nav-link link-scroll" id="logout">Logout</a></li>
+            <script>
+              $( document ).ready(function() {
+                $('#logout').click(function() {
+                  localStorage.clear();
+                });
+              });
+            </script>
         </ul>
       </div>
     </nav>
@@ -298,10 +306,6 @@
         event.preventDefault();
 
         try {
-          var e = document.getElementById("company");
-          var result = e.options[e.selectedIndex].value;
-          var e1 = document.getElementById("industry");
-          var result1 = e1.options[e1.selectedIndex].value;
           var serviceURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
           
           const response =
@@ -410,6 +414,7 @@
             checked_value = selected.join(",");
         }
         localStorage.setItem("checked",checked_value);
+        console.log(checked_value)
         window.location.href = "email.html";
       }
 
