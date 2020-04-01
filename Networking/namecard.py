@@ -71,8 +71,9 @@ def get_namecards(uid, company, industry):
 #         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
 #     return jsonify({"message": "Namecard not found"}), 404
 
-@app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
-def create_namecard(uid,email):
+@app.route("/namecards/<string:uid>&<string:name>&<string:email>&<string:phone_num>&<string:company>&<string:title>&<string:industry>", 
+            methods=['POST'])
+def create_namecard(uid,name,email,phone_num,company,title,industry):
     if (Namecard.query.filter_by(uid=uid, email=email).first()):
         return jsonify({"message": "An email '{}' already exists.".format(email)}), 400
 
@@ -86,6 +87,7 @@ def create_namecard(uid,email):
         return jsonify({"message": "An error occurred creating the namecard."}), 500
 
     return jsonify(book.json()), 201
+    
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8001, debug=True)
