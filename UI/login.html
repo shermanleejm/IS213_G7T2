@@ -113,12 +113,16 @@
 									<input type="text" name="uid" id="newuid">
 									</div>
 								<div class="form-group">
+									<label for="email">Password:</label>
+									<input type="password" name="password" id="newpassword">
+								</div>
+								<div class="form-group">
 									<label for="email">Email Address:</label>
 									<input type="text" name="email" id="email">
 								</div>
 								<div class="form-group">
-									<label for="email">Password:</label>
-									<input type="password" name="password" id="newpassword">
+									<label for="email">Email Password:</label>
+									<input type="password" name="password" id="newemailpassword">
 								</div>
 								<div class="form-group">
 									<button type="submit" name = "signup" class="submit btn btn-primary btn-shadow btn-gradient" style="float:right">Signup</button>
@@ -191,6 +195,7 @@
             var email = $('#email').val()
             var uid = $('#newuid').val()
             var password = $('#newpassword').val()
+			var emailpassword = $('#newemailpassword').val()
 			var serviceURL = "http://127.0.0.1:8000/users/signup";
 			
             try{
@@ -204,7 +209,7 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify
 						({ uid: uid, name: name, 
-							email: email, password:password, emailpassword:"test"})
+							email: email, password:password, emailpassword:emailpassword})
 					});
 
                 
