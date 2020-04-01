@@ -71,6 +71,8 @@
             <p class="hero-text" id="username" >Username: Lily</p>
             <p class="hero-text" id="email" >Email: lily@gmail.com</p>
             <p class="hero-text" id="number_of_namecards" >No. of Namecards: 20</p> 
+            <p class="hero-text" id="industry">Most networked with industry: Superheroes</p>
+            <p class="hero-text" id="company">Most networked with company: Avengers</p>
 
             <button id="edit_button" class="btn btn-primary btn-shadow btn-gradient" >Edit</button>
           </div>
@@ -109,16 +111,30 @@
 
       var namecards = await response2.json();
       var numOfNamecards = namecards.length;
-      
+
       if (response2.ok) {
         console.log(namecards)
+      }
+
+      var namecardStatsURL = "http://127.0.0.1:8001/namecardStats/" + userID;
+
+      const namecardStatsResponse = 
+      await fetch (
+        namecardStatsURL, {method: "GET"}
+      )
+
+      namecardStats = await namecardStatsResponse.json()
+
+      if (namecardStatsResponse.ok) {
+        console.log(namecardStats)
       }
 
       document.getElementById("welcome").innerHTML = "Welcome Back, " + data.name;
       document.getElementById("username").innerHTML = "Username: " + data.uid;
       document.getElementById("email").innerHTML = "Username: " + data.email;
       document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numOfNamecards;
-
+      document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
+      document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
 
     });
 
