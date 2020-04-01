@@ -23,10 +23,24 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="favicon.png">
+    <!-- <link rel="shortcut icon" href="favicon.png"> -->
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- navbar-->
@@ -56,39 +70,106 @@
       <div class="container">
         <div class="row block">
           <div class="col-lg-9">
-            <h1>Edit Namecard</h1><br><br>
+            <h1>Create Namecard</h1><br><br>
             <!-- email form-->
-            <form>
+            <form id="addNamecardForm">
                 <div class="form-group">
                   <label for="exampleFormControlInput1">Name:</label>
-                  <input type="text" class="form-control" id="exampleFormControlInput1">
+                  <input type="text" class="form-control" id="Name">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Company:</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" class="form-control" id="Company">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone_number">
                   </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Email:</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" class="form-control" id="Email">
                   </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Title:</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" class="form-control" id="Title">
                   </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Industry:</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" class="form-control" id="Industry">
                   </div>
               </form>
         
             
             <div>
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-gradient" style="float:right">Save changes</a></div>
+              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-primary btn-gradient" style="float:right" id="create">Create Namecard</a></div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <script>
+      uid = localStorage.getItem("uid")
+    
+      $("#create").on("click", async () => { 
+
+          //Prevents screen from refreshing when submitting
+          event.preventDefault();
+          var Name = $('#Name').val()
+          var Company = $('#Company').val()
+          var phone_number = $("#phone_number").val()
+          var Email = $('#Email').val()
+          var Title = $('#Title').val()
+          var Industry = $('#Industry').val()
+
+
+          if( Company == "") {
+            Company = "-"
+          }
+
+          if( Title == '') {
+            Title = "-"
+          }
+
+          if (Industry == "") {
+            Industry = "-"
+          }
+          console.log(Name,Company,phone_number,Email,Title,Industry)
+
+          // + uid + '&' + Name + "&" + Email + '&' + phone_number + "&" + Company + "&" + Title +'&'+ Industry
+          var serviceURL = "http://127.0.0.1:8001/namecards/create" ;
+          try{
+              const response =
+                  await fetch(
+                      serviceURL, { method: 'POST',
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify
+                      ({ uid: uid, Name: Name, Email: Email, phone_number:phone_number, Company: Company, 
+                        Title:Title, Industry:Industry })
+                      });
+                  // await fetch (
+                  //   serviceURL, {method:"GET"}
+                  // );
+
+              if (!response.ok) {
+                  var error = await response.json();
+                  // error = JSON.stringify(error);
+                  alert(error.message);
+              } else {
+                  const book = await response.json();
+                  console.log(book);
+                  $('#addNamecardForm') .append("<label> Successfuly added " + name + "'s namecard </label>");
+
+              }
+              
+          } catch (error) {
+              alert
+              ('There is a problem adding namecard data, please try again later.<br />'+error);
+          }     
+        });
+  
+    </script>
     
     <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
         <div class="container text-center">
@@ -104,13 +185,13 @@
     <script src="js/front.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
     <!---->
-    <script>
+    <!-- <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+    </script> -->
   </body>
 </html>

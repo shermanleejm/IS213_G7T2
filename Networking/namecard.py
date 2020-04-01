@@ -17,7 +17,7 @@ class Namecard(db.Model):
     __tablename__ = 'namecards'
 
     uid = db.Column(db.String(8), primary_key=True)
-    cid = db.Column(db.String(8), primary_key=True, nullable=False)
+    # cid = db.Column(db.String(8), primary_key=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     phone_num = db.Column(db.Integer(), nullable=True)
@@ -25,9 +25,9 @@ class Namecard(db.Model):
     title = db.Column(db.String(100), nullable=False)
     industry = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, uid, cid, name, email, phone_num, company, title, industry):
+    def __init__(self, uid,  name, email, phone_num, company, title, industry):
         self.uid = uid
-        self.cid = cid
+        # self.cid = cid
         self.name = name
         self.email = email
         self.phone_num = phone_num
@@ -109,22 +109,42 @@ def getNamecardStats(uid) :
 #     if len(namecards.all()) != 0:
 #         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
 #     return jsonify({"message": "Namecard not found"}), 404
-
-@app.route("/namecards/<string:uid>&<string:email>", methods=['POST'])
-def create_namecard(uid,email):
+# <string:uid>&<string:name>&<string:email>&<string:phone_num>&<string:company>&<string:title>&<string:industry>
+@app.route("/namecards/create", methods=['POST'])
+def create_namecard():
+    uid = request.json.get('uid')
+    # print(uid)
+    name = request.json.get('Name')
+    title = request.json.get('Title')
+    email = request.json.get('Email')
+    industry = request.json.get('Industry')
+    phone_num = request.json.get('phone_number')
+    company = request.json.get('Company')
+    print(uid,name,title,email,industry,phone_num,company)
+    
     if (Namecard.query.filter_by(uid=uid, email=email).first()):
         return jsonify({"message": "An email '{}' already exists.".format(email)}), 400
 
-    data = request.get_json()
-    namecard = Namecard(data)
+    # data = request.get_json()
+    # namecard = Namecard(data)
 
-    try:
-        db.session.add(namecard)
-        db.session.commit() 
-    except:
-        return jsonify({"message": "An error occurred creating the namecard."}), 500
+    # if uid is None or password is None or email is None or name is None:
+    #     return jsonify({"message": "Missing field"}), 401
+    # missing arguments
+    # if User.query.filter_by(uid=uid).first() is not None:# existing user
+    #     return jsonify({"message": "An account with this username already exists. Please try another username."}), 400
+    
+    
+    namecard = Namecard(uid=uid, name=name, email=email, phone_num=phone_num, company=company, title=title,industry=industry)
+    # user.hash_password(password)
+    db.session.add(namecard)
+    db.session.commit()
+    return jsonify({'message': name}), 201
 
-    return jsonify(book.json()), 201
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8001, debug=True)

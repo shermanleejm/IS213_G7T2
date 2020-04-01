@@ -69,7 +69,7 @@
           <div class="col-lg-9">
             <h1>Namecards</h1><br><br><br>
             <div>
-              <div><a href="editnamecard.html" class="btn btn-primary btn-gradient">Edit exisiting</a></div>
+              <div><a href="createnamecard.html" class="btn btn-primary btn-gradient">Add Namecard</a></div>
             </div>
             <section class="newsletter">
                 <div class="text-center">
@@ -112,7 +112,7 @@
         
                     // array or array.length are falsy
                     if (!namecards || !namecards.length) {
-                        showError('Namecard list empty or undefined.')
+                        // showError('Namecard list empty or undefined.')
                     } else {
                         // for loop to setup all table rows with obtained book data
                         var rows = "";
@@ -143,7 +143,7 @@
               //Prevents screen from refreshing when submitting
               event.preventDefault();
               var name = $('#name').val()
-              var serviceURL = "http://127.0.0.1:8001/namecards/1" + '&' + name;
+              var serviceURL = "http://127.0.0.1:8001/namecards/" + uid + '&' + name;
               try{
                   const response =
                       await fetch(
