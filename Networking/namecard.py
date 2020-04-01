@@ -73,7 +73,7 @@ def getNamecardStats(uid) :
         cursorclass=pymysql.cursors.DictCursor
     )
 
-    result = {"error": "No error"}
+    result = {"company": [], "industry": []}
     
     try:
         # Most popular company
@@ -91,8 +91,9 @@ def getNamecardStats(uid) :
 
     finally: 
         conn.close()
+        return jsonify(result)
     
-    return jsonify({"error": "No data found"})
+    
 
 
 # @app.route("/namecards/<string:uid>&<string:name>")
