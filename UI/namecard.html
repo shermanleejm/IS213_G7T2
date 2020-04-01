@@ -92,7 +92,7 @@
               uid = localStorage.getItem("uid")
               $(async() => {           
                 // Change serviceURL to your own
-                var serviceURL = "http://localhost:8001/namecards/" + uid;
+                var serviceURL = "http://localhost:8001/namecards/" + uid + "&%&%";
         
                 try {
                     const response =
@@ -100,7 +100,7 @@
                       serviceURL, { method: 'GET' }
                     );
                     const data = await response.json();
-                    var namecards = data.namecards; //the arr is in data.books of the JSON data
+                    var namecards = data; //the arr is in data.books of the JSON data
         
                     // array or array.length are falsy
                     if (!namecards || !namecards.length) {
@@ -125,7 +125,7 @@
                         // Errors when calling the service; such as network error, 
                         // service offline, etc
                         alert
-                        ('There is a problem retrieving namecards data, please try again later.<br />'+error);
+                        ('FIST There is a problem retrieving namecards data, please try again later.<br />'+error);
                   
                       } // error
                   });

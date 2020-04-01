@@ -34,6 +34,9 @@
         <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
         <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="js/front.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   </head>
   <body>
     <!-- navbar-->
@@ -67,7 +70,6 @@
 
             <p class="hero-text" id="username" >Username: Lily</p>
             <p class="hero-text" id="email" >Email: lily@gmail.com</p>
-            <p class="hero-text" id="linkedin" >LinkedIn URL: linkedin.com/in/lily</p> 
             <p class="hero-text" id="number_of_namecards" >No. of Namecards: 20</p> 
 
             <button id="edit_button" class="btn btn-primary btn-shadow btn-gradient" >Edit</button>
@@ -81,31 +83,50 @@
       
     <script>
     var userID = localStorage.getItem("uid")
-      console.log(userID)
-      $(async () => {
-        console.log("This async function doesnt work")
-        var serviceURL = "http://127.0.0.1:8000/users/" + userID
 
-        try {
-          const response =
-            await fetch(
-              serviceURL, { method: 'GET' }
-            )
+    $(async () => {
 
-          const data = await response.json()
+      var serviceURL = "http://127.0.0.1:8000/users/" + userID;
 
-          console.log(data)
+      const response = 
+        await fetch( 
+          serviceURL, { method: 'GET' }
+        );
 
-        } catch (error) {
-          console.log(error)
-        }
+      const data = await response.json();
 
-      });
+      if (response.ok) {
+          // print error
+          console.log(data);
+      }
 
+      var namecardURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
+
+      const response2 = 
+      await fetch (
+        namecardURL, {method: "GET"}
+      );
+
+      var namecards = await response2.json();
+      var numOfNamecards = namecards.length;
+      
+      if (response2.ok) {
+        console.log(namecards)
+      }
+
+      document.getElementById("welcome").innerHTML = "Welcome Back, " + data.name;
+      document.getElementById("username").innerHTML = "Username: " + data.uid;
+      document.getElementById("email").innerHTML = "Username: " + data.email;
+      document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numOfNamecards;
+
+
+    });
 
       $(document).ready(function(){
 
         $("#edit_details").hide();
+
+        
 
         $('#view_button').click(function() {        
             $("#edit_details").hide();

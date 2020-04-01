@@ -49,7 +49,7 @@ def get_namecards(uid, company, industry):
     conn = pymysql.connect(
         host="localhost",
         user="nap",
-        db="Namecard",
+        db="namecard",
         cursorclass=pymysql.cursors.DictCursor
     )
 
@@ -60,6 +60,32 @@ def get_namecards(uid, company, industry):
         stmt.execute(sql, (uid, company, industry))
         result = stmt.fetchall()
         return jsonify(result)
+    finally: 
+        conn.close()
+
+@app.route("/namecardStats/<string:uid>")
+def getNamecardStats(uid) :
+
+    conn = pymysql.connect(
+        host="localhost",
+        user="nap",
+        db="namecard",
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    result = {}
+    
+    try:
+        # Most popular company
+        stmt = conn.cursor()
+        sql = '''SELECT * FROM namecards 
+        WHERE uid=%s AND company like %s AND industry like %s '''
+        stmt.execute(sql, (uid, company, industry))
+        result = stmt.fetchall()
+
+        
+        return jsonify(result)
+
     finally: 
         conn.close()
 
