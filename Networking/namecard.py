@@ -103,21 +103,32 @@ def getNamecardStats(uid) :
 #     return jsonify({"message": "Namecard not found"}), 404
 
 @app.route("/namecards/<string:uid>&<string:name>&<string:email>&<string:phone_num>&<string:company>&<string:title>&<string:industry>", 
-            methods=['POST'])
+            methods=['GET'])
 def create_namecard(uid,name,email,phone_num,company,title,industry):
+
     if (Namecard.query.filter_by(uid=uid, email=email).first()):
         return jsonify({"message": "An email '{}' already exists.".format(email)}), 400
 
-    data = request.get_json()
-    namecard = Namecard(data)
+    # data = request.get_json()
+    # namecard = Namecard(data)
 
     try:
-        db.session.add(namecard)
-        db.session.commit() 
+        conn = pymysql.connect(
+        host="localhost",
+        user="nap",
+        db="namecard",
+        cursorclass=pymysql.cursors.DictCursor
+        )
+
+        stmt = conn.cursor()
+
+        sql = "INSERT INTO namecards (uid, name, email, phone_num, company, title, industry) VALUES (%s, %s, %s, %s, %s, %s, %s) "
+        stmt.execute(sql, (uid,name,email,int(phone_num),company,title,industry))
+
     except:
         return jsonify({"message": "An error occurred creating the namecard."}), 500
 
-    return jsonify(book.json()), 201
+    return jsonify({"status" : "success"})
     
 
 if __name__ == '__main__':
