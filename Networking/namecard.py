@@ -73,21 +73,26 @@ def getNamecardStats(uid) :
         cursorclass=pymysql.cursors.DictCursor
     )
 
-    result = {}
+    result = {"error": "No error"}
     
     try:
         # Most popular company
         stmt = conn.cursor()
-        sql = '''SELECT * FROM namecards 
-        WHERE uid=%s AND company like %s AND industry like %s '''
-        stmt.execute(sql, (uid, company, industry))
-        result = stmt.fetchall()
-
+        sql = '''SELECT company FROM namecards WHERE uid=%s GROUP BY company ORDER BY count(company) DESC LIMIT 1'''
+        stmt.execute(sql, (uid))
+        result["company"] = stmt.fetchone()["company"]
+    
+        stmt1 = conn.cursor()
+        sql = '''SELECT industry FROM namecards WHERE uid=%s GROUP BY industry ORDER BY count(industry) DESC LIMIT 1'''
+        stmt1.execute(sql, (uid))
+        result["industry"] = stmt1.fetchone()["industry"]
         
         return jsonify(result)
 
     finally: 
         conn.close()
+    
+    return jsonify({"error": "No data found"})
 
 
 # @app.route("/namecards/<string:uid>&<string:name>")
