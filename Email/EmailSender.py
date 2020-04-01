@@ -10,15 +10,6 @@ from flask_cors import CORS
 from os import environ
 from sqlalchemy import and_, or_, not_
 import smtplib, ssl
-from app import *
-
-def create_app():
-    app = Flask(__name__)
-
-    with app.app_context():
-        init_db()
-
-    return app
 
 hostname = "localhost" # default hostname
 port = 5672 # default port

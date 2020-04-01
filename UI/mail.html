@@ -298,10 +298,6 @@
         event.preventDefault();
 
         try {
-          var e = document.getElementById("company");
-          var result = e.options[e.selectedIndex].value;
-          var e1 = document.getElementById("industry");
-          var result1 = e1.options[e1.selectedIndex].value;
           var serviceURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
           
           const response =
@@ -410,6 +406,7 @@
             checked_value = selected.join(",");
         }
         localStorage.setItem("checked",checked_value);
+        console.log(checked_value)
         window.location.href = "email.html";
       }
 
