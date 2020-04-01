@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Login V18</title>
 	<meta charset="UTF-8">
@@ -147,6 +148,8 @@
 	</div>
 
 	<script>
+
+
 		$("#loginform").submit(async (event) => {
 			//Prevents screen from refreshing when submitting
             event.preventDefault();
@@ -176,7 +179,7 @@
                 
             } catch (error) {
                 alert
-                ('There is a problem adding books data, please try again later.<br />'+error);
+                ('There is a problem logging in, please try again later.<br />'+error);
             }     
         });
 
@@ -201,7 +204,7 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify
 						({ uid: uid, name: name, 
-							email: email, password:password})
+							email: email, password:password, emailpassword:"test"})
 					});
 
                 
@@ -218,7 +221,7 @@
                 
             } catch (error) {
                 alert
-				('There is a problem adding books data, please try again later.<br />'+error);
+				('There is a problem logging in, please try again later.<br />'+error);
             }     
         });
 	</script>
