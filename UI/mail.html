@@ -149,7 +149,6 @@
             }
             // add all the rows to the table
             $('#emailtable').append(rows);
-
             //duplicate company array
             dup_company = new Array()
 
@@ -335,8 +334,48 @@
             }
             // add all the rows to the table
             $('#emailtable').append(rows);
+            document.getElementById("company").options.length=0;
+            document.getElementById("industry").options.length=0;
+            
             $('#company').append('<option selected disabled hidden value="">Company</option>')
             $('#industry').append('<option selected disabled hidden value="">Industry</option>')
+            //duplicate company array
+            dup_company = new Array()
+
+            var companyrows = "";
+            for (const email of emails) {
+              if(dup_company.indexOf(email.company) !== -1){
+                  continue;
+              } else{
+                  eachcompanyRow =
+                  "<option value='" + email.company + "'>" + email.company + "</option>";
+                  companyrows += eachcompanyRow;
+                  dup_company.push(email.company)
+              }
+              
+
+            }
+            // add all the rows to dropdown company
+            $('#company').append(companyrows);
+
+            //duplicate industry array
+            dup_industry = new Array()
+
+            var industryrows = "";
+            for (const email of emails) {
+              if(dup_industry.indexOf(email.industry) !== -1){
+                  continue;
+              } else{
+                eachindustryyRow =
+                  "<option value='" + email.industry + "'>" + email.industry + "</option>";
+                  industryrows += eachindustryyRow;
+                dup_industry.push(email.industry)
+              }
+              
+
+            }
+            // add all the rows to dropdown industry
+            $('#industry').append(industryrows);
           }
         }
         catch (error) {

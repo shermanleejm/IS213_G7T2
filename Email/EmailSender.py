@@ -12,22 +12,6 @@ from sqlalchemy import and_, or_, not_
 import smtplib, ssl
 from app import *
 
-# class Order_Item:
-#     def __init__(self):
-#         self.uid = uid
-#         self.cid = cid
-#         self.name = name
-#         self.email = email
-#         self.phone_num = phone_num
-#         self.company = company
-#         self.title = title
-#         self.industry = industry
-        
-
-#     def json(self):
-#         return {"uid": self.uid,"cid": self.cid,"name": self.name, "email": self.email,"phone_num": self.phone_num,
-#         "company": self.company,"title": self.title,"industry": self.industry}
-
 def create_app():
     app = Flask(__name__)
 
