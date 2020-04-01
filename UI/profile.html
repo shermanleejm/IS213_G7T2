@@ -74,10 +74,6 @@
                 <td><input type="text" class="form-control" id="edit_fullname"></td>
               </tr>
               <tr>
-                <td>Username: </td>
-                <td><input type="text" class="form-control" id="edit_username"></td>
-              </tr>
-              <tr>
                 <td>Password: </td>
                 <td><input type="text" class="form-control" id="edit_password"></td>
               </tr>
@@ -174,13 +170,12 @@
       document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
 
       // put details in edit details table
-      document.getElementById("edit_fullname").placeholder = userInfo.name;
       document.getElementById("edit_fullname").value = userInfo.name;
-      document.getElementById("edit_username").value = userInfo.uid;
-      document.getElementById("edit_password").value = "";
+      document.getElementById("edit_password").value = "*****";
+      document.getElementById("edit_confirm_password").value = "*****";
       document.getElementById("edit_email").value = userInfo.email;
-      document.getElementById("edit_email_password").value = "";
-      document.getElementById("edit_confirm_email_password").value = "";
+      document.getElementById("edit_email_password").value = "*****";
+      document.getElementById("edit_confirm_email_password").value = "*****";
 
     });
 
@@ -206,30 +201,37 @@
 
         var userInfo = await response.json();
 
-        // put details in edit details table
-        // document.getElementById("edit_fullname").placeholder = userInfo.name;
-        // document.getElementById("edit_fullname").value = userInfo.name;
-        // document.getElementById("edit_username").value = userInfo.uid;
-        // document.getElementById("edit_password").value = "";
-        // document.getElementById("edit_email").value = userInfo.email;
-        // document.getElementById("edit_email_password").value = "";
-        // document.getElementById("edit_confirm_email_password").value = "";
-
-        
-
         if (response.ok) {
             // print error
             console.log(userInfo);
         }
 
-        if (password == confirm_password & confirm_email_passsword == email_password) {
-          console.log("success")
+        if ( !(password == confirm_password & confirm_email_passsword == email_password) ) {
+          if (password != confirm_password) {
+            alert ("NAP password does not match");
+          }
+          
+          if (confirm_email_passsword != email_password) {
+            alert ("email password does not match");
+          }
         } else {
-          console.log("failure")
+          // Change everything
+          var updateURL = "http://127.0.0.1:8000/updateUser/" + userID;
+
+          const response =
+          await fetch(
+              serviceURL, { method: 'POST',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ uid: userID, name:fullname, email:email, password:password, email_password:email_password})
+          });
+
+          }
+
+          $("#edit_details").hide();
+          $("#details").show();
         }
- 
-        $("#edit_details").hide();
-        $("#details").show();
+
+        
         });
 
       $('#edit_button').click( async() => {        
