@@ -10,15 +10,6 @@ from flask_cors import CORS
 from os import environ
 from sqlalchemy import and_, or_, not_
 import smtplib, ssl
-from app import *
-
-def create_app():
-    app = Flask(__name__)
-
-    with app.app_context():
-        init_db()
-
-    return app
 
 hostname = "localhost" # default hostname
 port = 5672 # default port
@@ -64,7 +55,7 @@ def sendEmail(receiver_email, receiver_name, emailsubject, emailmessage, senderE
     message = """\
     Subject: """+emailsubject+"""
 
-    Dear """+ receiver_name + ",\n" +emailmessage
+    Dear """+ receiver_name + ",\n\t" +emailmessage
 
 
     context = ssl.create_default_context()
@@ -72,10 +63,10 @@ def sendEmail(receiver_email, receiver_name, emailsubject, emailmessage, senderE
         try:
             server.login(sender_email, password)
         except:
-            return ("FAIL")
+            return ("Email(s) failed sending")
         else:
             server.sendmail(sender_email, receiver_email, message)
-    return ("Email(s) sent to" + str(sender_email))
+    return ("Email(s) sent to " + str(receiver_email))
 
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')

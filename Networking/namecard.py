@@ -62,6 +62,13 @@ def get_namecards(uid, company, industry):
         return jsonify(result)
     finally: 
         conn.close()
+        
+@app.route("/namecards/<string:uid>") #all namecards with defined uid
+def get_all(uid):
+    namecards = Namecard.query.filter_by(uid=uid).all()
+    if namecards:
+        return jsonify({"namecards": [namecard.json() for namecard in namecards]})
+    return jsonify({"message": "No Namecards"}),404
 
 @app.route("/namecardStats/<string:uid>")
 def getNamecardStats(uid) :
