@@ -40,11 +40,13 @@
 	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 	crossorigin="anonymous"></script>
 </head>
+
 <body style="background-color: #666666;">
-	
+
 	<div class="limiter">
 		<div class="container-login100" id = "login">
 			<div class="wrap-login100">
+				
 				<form class="login100-form validate-form" id="loginform">
 					<span class="login100-form-title p-b-43">
 						Welcome to Networking Assistance Platform<br>
@@ -92,6 +94,10 @@
 						<span class="txt2">
 							or sign up <a href="#" style="font-size: small;" data-toggle="modal" data-target="#exampleModal" >here</a>
 						</span>
+					</div>
+					<div id="divSuccess" class="alert alert-success d-none">
+						<strong>Success!</strong> Indicates a successful or positive action.
+					  </div>			
 						
 					</div>					
 				</form>
@@ -154,7 +160,9 @@
 	</div>
 
 	<script>
-
+		$("#submitSignup").click(function(){
+		$("#divSuccess").show();
+		});
 
 		$("#loginform").submit(async (event) => {
 			//Prevents screen from refreshing when submitting
@@ -222,10 +230,10 @@
                 } else {
                     const book = await response.json();
                     console.log(book);
-                    $('#signupPage') .append("<label> Successfuly created account </label>");
+                    $('#loginform').append("Successfuly created account. Please Log in.");
 
                 }
-                
+                $('#loginform').append("Successfuly created account. Please Log in.");
             } catch (error) {
                 alert
 				('There is a problem logging in, please try again later.<br />'+error);

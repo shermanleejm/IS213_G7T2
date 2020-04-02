@@ -33,7 +33,7 @@ def receiveEmail():
     channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
     channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
-
+    
 def callback(channel, method, properties, body): # required signature for the callback; no return
     print("Received an order by " + __file__)
     
@@ -52,10 +52,8 @@ def sendEmail(receiver_email, receiver_name, emailsubject, emailmessage, senderE
     sender_email = senderEmail  # Enter your address
     password = emailPassword#input("Type your password and press enter: ")
         
-    message = """\
-    Subject: """+emailsubject+"""
-
-    Dear """+ receiver_name + ",\n\t" +emailmessage
+    message = f"""\
+    Subject: {emailsubject} \nDear """+ receiver_name + ",\n\n" +emailmessage
 
 
     context = ssl.create_default_context()
@@ -63,7 +61,7 @@ def sendEmail(receiver_email, receiver_name, emailsubject, emailmessage, senderE
         try:
             server.login(sender_email, password)
         except:
-            return ("Email(s) failed sending")
+            return ("Email(s) failed to send")
         else:
             server.sendmail(sender_email, receiver_email, message)
     return ("Email(s) sent to " + str(receiver_email))
