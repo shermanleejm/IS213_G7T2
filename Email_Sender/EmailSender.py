@@ -12,6 +12,7 @@ from sqlalchemy import and_, or_, not_
 import smtplib, ssl
 
 hostname = "localhost" # default hostname
+# hostname = "rabbitmq-server"
 port = 5672 # default port
 # connect to the broker and set up a communication channel in the connection
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
