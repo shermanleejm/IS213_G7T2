@@ -40,14 +40,22 @@
 	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 	crossorigin="anonymous"></script>
 </head>
-
+<style>
+	.modal-content, .modal-body, .modal-head{
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    -moz-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    -o-box-shadow: 0 5px 15px rgba(0,0,0,0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0);
+}
+</style>
 <body style="background-color: #666666;">
 
 	<div class="limiter">
 		<div class="container-login100" id = "login">
 			<div class="wrap-login100">
-				
+				<div class="login100-more" style="background-image: url('images/bg002.jpg');"></div>
 				<form class="login100-form validate-form" id="loginform">
+					
 					<span class="login100-form-title p-b-43">
 						Welcome to Networking Assistance Platform<br>
 						<br>
@@ -55,14 +63,14 @@
 					</span>
 					
 					
-					<div class="wrap-input100" data-validate = "Valid Username is required">
+					<div class="wrap-input100  " data-validate = "Valid Username is required">
 						<input class="input100" type="text" name = "uid" id="uid">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Username</span>
 					</div>
 					
 					
-					<div class="wrap-input100" data-validate="Password is required">
+					<div class="wrap-input100  " data-validate="Password is required">
 						<input class="input100" type="password" name="password" id="password">
 						<span class="focus-input100"></span>
 						<span class="label-input100">Password</span>
@@ -82,28 +90,30 @@
 							</a>
 						</div>
 					</div>
-			
-
 					<div class="container-login100-form-btn">
 						<button type="submit" class="btn btn-primary navbar-btn btn-shadow btn-gradient btn-block">
 							Login
 						</button>
 					</div>
-				
-					<div class="text-center p-t-46 p-b-20">
+					<br>
+					<div class="text-center">
 						<span class="txt2">
 							or sign up <a href="#" style="font-size: small;" data-toggle="modal" data-target="#exampleModal" >here</a>
 						</span>
 					</div>
 					<div id="divSuccess" class="alert alert-success d-none">
-						<strong>Success!</strong> Indicates a successful or positive action.
-					  </div>			
+						<strong>Success!</strong> Thank you for signing up with NAP!
+					</div>
+					<div id="divError" class="alert alert-danger d-none">
+						<strong>Error!</strong><label id="lbError" value=""></label>
+					  </div>	
 						
 					</div>					
 				</form>
+				
 					<!-- signup-->
-					<div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade">
-						<div role="document" class="modal-dialog">
+					<div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal">
+						<div role="document" class=" modal-dialog">
 						<div class="modal-content" id="signupPage">
 							<div class="modal-header">
 							<h5 id="exampleModalLabel" class="modal-title">Sign Up</h5>
@@ -133,7 +143,7 @@
 									<input type="password" name="password" id="newemailpassword">
 								</div>
 								<div class="form-group">
-									<button type="submit" name = "signup" class="submit btn btn-primary btn-shadow btn-gradient" style="float:right" >Signup</button>
+									<button id="btnSignup" type="submit" name = "signup" class="submit btn btn-primary btn-shadow btn-gradient" style="float:right" >Signup</button>
 								</div>
 							</form>
 							</div>
@@ -153,20 +163,21 @@
 					</div> -->
 				
 
-				<div class="login100-more" style="background-image: url('images/bg002.jpg');">
+				
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		$("#submitSignup").click(function(){
-		$("#divSuccess").show();
-		});
 
 		$("#loginform").submit(async (event) => {
 			//Prevents screen from refreshing when submitting
-            event.preventDefault();
+			event.preventDefault();
+			var x = document.getElementById("divSuccess");
+			x.classList.remove("d-block");
+			var x = document.getElementById("divError");
+			x.classList.remove("d-block");
             var uid = $('#uid').val()
             var password = $('#password').val()
 			var serviceURL = "http://127.0.0.1:8000/users/login";
@@ -199,8 +210,13 @@
 
 
 		$("#signupform").submit(async (event) => {
+			
             //Prevents screen from refreshing when submitting
-            event.preventDefault();
+			event.preventDefault();
+						var x = document.getElementById("divSuccess");
+			x.classList.remove("d-block");
+			var x = document.getElementById("divError");
+			x.classList.remove("d-block");
             var name = $('#name').val()
             var email = $('#email').val()
             var uid = $('#newuid').val()
@@ -210,9 +226,6 @@
 			
             try{
 
-				// alert(name: name);
-				// alert(email: email);
-				// alert(password:password);
                 const response =
                     await fetch(
                         serviceURL, { method: 'POST',
@@ -226,17 +239,25 @@
                 if (!response.ok) {
                     var error = await response.json();
                     error = JSON.stringify(error);
-                    $('#signupPage') .append("<label>"+error+"</label>");
+					var x = document.getElementById("divError");
+					document.getElementById("lbError").textContent = error;
+					x.classList.add("d-block");
+					$('#exampleModal').modal('hide');
+					$('body').removeClass('modal-open');
+					$('body').css('padding-right', '0px');
+					$('.modal-backdrop').remove();
                 } else {
                     const book = await response.json();
-                    console.log(book);
-                    $('#loginform').append("Successfuly created account. Please Log in.");
-
-                }
-                $('#loginform').append("Successfuly created account. Please Log in.");
+                    var x = document.getElementById("divSuccess");
+					x.classList.add("d-block");
+					$('#exampleModal').modal('hide');
+					$('body').removeClass('modal-open');
+					$('body').css('padding-right', '0px');
+					$('.modal-backdrop').remove();
+				}
             } catch (error) {
                 alert
-				('There is a problem logging in, please try again later.<br />'+error);
+				('There is a problem signing in, please try again later.<br />'+error);
             }     
         });
 	</script>
