@@ -1,7 +1,6 @@
 FROM python:3
-WORKDIR /usr/src/Email
+WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-COPY ./Emailing.py .
-CMD [ "python", "./Emailing.py" ]
-
+COPY ./namecard.py .
+CMD [ "python", "./namecard.py" ]
