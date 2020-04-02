@@ -138,14 +138,14 @@ def updateUser(uid):
     try:
         row = User.query.filter_by(uid=uid).first()
 
-        if data["password"] != "*****":
+        if data["password"] != "":
             row.password = pwd_context.encrypt(data["password"])
 
         row.name = data["name"]
 
-        if data["email_password"] != "*****":
+        if data["email_password"] != "":
             row.emailpassword = data["email_password"]
-            
+
         row.email = data["email"]
 
         db.session.commit()

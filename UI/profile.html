@@ -75,11 +75,11 @@
               </tr>
               <tr>
                 <td>Password: </td>
-                <td><input type="text" class="form-control" id="edit_password"></td>
+                <td><input type="password" class="form-control" id="edit_password"></td>
               </tr>
               <tr>
                 <td>Confirm Password: </td>
-                <td><input type="text" class="form-control" id="edit_confirm_password"></td>
+                <td><input type="password" class="form-control" id="edit_confirm_password"></td>
               </tr>
               <tr>
                 <td>Email: </td>
@@ -87,16 +87,27 @@
               </tr>
               <tr>
                 <td>Email Password: </td>
-                <td><input type="text" class="form-control" id="edit_email_password"></td>
+                <td><input type="password" class="form-control" id="edit_email_password"></td>
               </tr>
               <tr>
                 <td>Confirm Email Password: </td>
-                <td><input type="text" class="form-control" id="edit_confirm_email_password"></td>
+                <td><input type="password" class="form-control" id="edit_confirm_email_password"></td>
               </tr>
             </table>
             <button id="view_button" class="btn btn-primary btn-shadow btn-gradient">Submit</button>
           </div>
 
+          <!-- sherman image shit  -->
+          <!-- <p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+          <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+          <p><img id="output" width="200" /></p>
+
+          <script>
+          var loadFile = function(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+          };
+          </script> -->
 
           <div id="details" class="col-lg-6 text order-2 order-lg-1">
             <h1 id="welcome" ></h1>
@@ -156,11 +167,11 @@
 
       // put details in edit details table
       document.getElementById("edit_fullname").value = userInfo.name;
-      document.getElementById("edit_password").value = "*****";
-      document.getElementById("edit_confirm_password").value = "*****";
+      document.getElementById("edit_password").value = "";
+      document.getElementById("edit_confirm_password").value = "";
       document.getElementById("edit_email").value = userInfo.email;
-      document.getElementById("edit_email_password").value = "*****";
-      document.getElementById("edit_confirm_email_password").value = "*****";
+      document.getElementById("edit_email_password").value = "";
+      document.getElementById("edit_confirm_email_password").value = "";
     }
 
     $(async () => {
@@ -237,10 +248,6 @@
           $("#details").show();
         }
 
-          
-        
-
-        
         });
 
       $('#edit_button').click( async() => {        
