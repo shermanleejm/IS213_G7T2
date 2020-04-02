@@ -134,23 +134,21 @@ def changePassword(userid, newPassword) :
 @app.route("/updateUser/<string:uid>", methods=["POST"])
 def updateUser(uid):
     data = request.get_json()
-    print (type(data))
+
     try:
-        conn = pymysql.connect(
-            host="localhost",
-            user="nap",
-            db="user",
-            cursorclass=pymysql.cursors.DictCursor
-        )
+        row = User.query.filter_by(uid=uid).first()
 
-        password = data["password"]
-        password = pwd_context.encrypt(password)
-        print (password)
-        stmt = conn.cursor()
+        if data["password"] != "*****":
+            row.password = pwd_context.encrypt(data["password"])
 
-        sql = "UPDATE users SET `name`=%s, `email`=%s, `password`=%s, `emailpassword`=%s WHERE `uid`=%s"
+        row.name = data["name"]
 
-        stmt.execute(sql, (data["name"], data["email"], password, data["email_password"], uid))
+        if data["email_password"] != "*****":
+            row.emailpassword = data["email_password"]
+            
+        row.email = data["email"]
+
+        db.session.commit()
 
     except:
         return jsonify({"status": "failure"}), 200

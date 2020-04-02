@@ -119,6 +119,49 @@
     <script>
     var userID = localStorage.getItem("uid")
 
+    async function getUpdatedDetails(userID) {
+      var serviceURL = "http://127.0.0.1:8000/users/" + userID;
+
+      const updateduiresponse = 
+        await fetch( 
+          serviceURL, { method: 'GET' }
+        );
+
+      var userInfo = await updateduiresponse.json();
+
+      var namecardURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
+
+      const updatedNamecards = 
+      await fetch (
+        namecardURL, {method: "GET"}
+      );
+      const numnamecards = await updatedNamecards.json().length;
+
+      var updatedNamecardStatsURL = "http://127.0.0.1:8001/namecardStats/" + userID;
+
+      const updatedNamecardStatsResponse = 
+      await fetch (
+        updatedNamecardStatsURL, {method: "GET"}
+      )
+
+      var namecardStats = await updatedNamecardStatsResponse.json()
+
+      document.getElementById("welcome").innerHTML = "Welcome Back, " + userInfo.name;
+      document.getElementById("username").innerHTML = "Username: " + userInfo.uid;
+      document.getElementById("email").innerHTML = "Email: " + userInfo.email;
+      document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numnamecards;
+      document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
+      document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
+
+      // put details in edit details table
+      document.getElementById("edit_fullname").value = userInfo.name;
+      document.getElementById("edit_password").value = "*****";
+      document.getElementById("edit_confirm_password").value = "*****";
+      document.getElementById("edit_email").value = userInfo.email;
+      document.getElementById("edit_email_password").value = "*****";
+      document.getElementById("edit_confirm_email_password").value = "*****";
+    }
+
     $(async () => {
 
       var serviceURL = "http://127.0.0.1:8000/users/" + userID;
@@ -135,47 +178,7 @@
           console.log(userInfo);
       }
 
-      var namecardURL = "http://127.0.0.1:8001/namecards/" + userID + "&%&%";
-
-      const response2 = 
-      await fetch (
-        namecardURL, {method: "GET"}
-      );
-
-      const namecards = await response2.json();
-      const numOfNamecards = namecards.length;
-
-      if (response2.ok) {
-        console.log(namecards)
-      }
-
-      var namecardStatsURL = "http://127.0.0.1:8001/namecardStats/" + userID;
-
-      const namecardStatsResponse = 
-      await fetch (
-        namecardStatsURL, {method: "GET"}
-      )
-
-      namecardStats = await namecardStatsResponse.json()
-
-      if (namecardStatsResponse.ok) {
-        console.log(namecardStats)
-      }
-
-      document.getElementById("welcome").innerHTML = "Welcome Back, " + userInfo.name;
-      document.getElementById("username").innerHTML = "Username: " + userInfo.uid;
-      document.getElementById("email").innerHTML = "Email: " + userInfo.email;
-      document.getElementById("number_of_namecards").innerHTML = "Number of namecards: " + numOfNamecards;
-      document.getElementById("industry").innerHTML = "Most networked with industry: " + namecardStats.industry;
-      document.getElementById("company").innerHTML = "Most networked with company: " + namecardStats.company;
-
-      // put details in edit details table
-      document.getElementById("edit_fullname").value = userInfo.name;
-      document.getElementById("edit_password").value = "*****";
-      document.getElementById("edit_confirm_password").value = "*****";
-      document.getElementById("edit_email").value = userInfo.email;
-      document.getElementById("edit_email_password").value = "*****";
-      document.getElementById("edit_confirm_email_password").value = "*****";
+      getUpdatedDetails(userID);
 
     });
 
@@ -184,7 +187,6 @@
       $("#edit_details").hide();
 
       $('#view_button').click(async() => {
-        var username = document.getElementById("edit_username").value;
         var fullname = document.getElementById("edit_fullname").value;
         var password = document.getElementById("edit_password").value;
         var confirm_password = document.getElementById("edit_confirm_password").value;
@@ -220,21 +222,29 @@
 
           const response =
           await fetch(
-              serviceURL, { method: 'POST',
+              updateURL, { method: 'POST',
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ uid: userID, name:fullname, email:email, password:password, email_password:email_password})
           });
 
-          }
+          var status = await response.json();
+          console.log(status)
+
+        }
+
+          getUpdatedDetails(userID);
 
           $("#edit_details").hide();
           $("#details").show();
-        }
+        
 
         
         });
 
       $('#edit_button').click( async() => {        
+        var uid = localStorage.getItem("uid");
+        getUpdatedDetails(uid);
+
         $("#edit_details").show();
         $("#details").hide();
       });
