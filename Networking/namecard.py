@@ -36,7 +36,7 @@ class Namecard(db.Model):
         self.industry = industry
 
     def json(self):
-        return {"uid": self.uid, "cid": self.cid, "name": self.name, "email": self.email, "phone_num":self.phone_num, "company":self.company, "title":self.title, "industry": self.industry}
+        return {"uid": self.uid, "name": self.name, "email": self.email, "phone_num":self.phone_num, "company":self.company, "title":self.title, "industry": self.industry}
 
 
 @app.route("/namecards/<string:uid>&<string:company>&<string:industry>") #all namecards with defined uid
@@ -69,6 +69,16 @@ def get_all(uid):
     if namecards:
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
     return jsonify({"message": "No Namecards"}),404
+
+
+@app.route("/namecards/<string:uid>&<string:name>")
+def find_by_name(uid,name):
+    namecards = Namecard.query.filter(Namecard.name.like('%'+name+'%'), Namecard.uid==uid)
+    if len(namecards.all()) != 0:
+        return jsonify({"namecards": [namecard.json() for namecard in namecards]})
+    return jsonify({"message": "Namecard not found"}), 404
+
+
 
 @app.route("/namecardStats/<string:uid>")
 def getNamecardStats(uid) :
