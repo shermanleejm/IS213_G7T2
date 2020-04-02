@@ -135,7 +135,8 @@
       await fetch (
         namecardURL, {method: "GET"}
       );
-      const numnamecards = await updatedNamecards.json().length;
+      var namecards = await updatedNamecards.json();
+      const numnamecards = namecards.length;
 
       var updatedNamecardStatsURL = "http://127.0.0.1:8001/namecardStats/" + userID;
 
@@ -230,12 +231,13 @@
           var status = await response.json();
           console.log(status)
 
-        }
-
           getUpdatedDetails(userID);
 
           $("#edit_details").hide();
           $("#details").show();
+        }
+
+          
         
 
         
