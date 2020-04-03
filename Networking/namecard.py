@@ -79,7 +79,7 @@ def get_all(uid):
     namecards = Namecard.query.filter_by(uid=uid).all()
     if namecards:
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
-    return jsonify({"message": "No Namecards"}),404
+    return jsonify({"namecards": "No Namecards"}),404
 
 
 @app.route("/namecards/<string:uid>&<string:name>")
@@ -87,13 +87,14 @@ def find_by_name(uid,name):
     namecards = Namecard.query.filter(Namecard.name.like('%'+name+'%'), Namecard.uid==uid)
     if len(namecards.all()) != 0:
         return jsonify({"namecards": [namecard.json() for namecard in namecards]})
-    return jsonify({"message": "Namecard not found"}), 404
+    return jsonify({"namecards": "Namecard not found"}), 404
 
 
 
 @app.route("/namecardStats/<string:uid>")
 def getNamecardStats(uid) :
-    with engine.connect() as conn:
+    try :
+        conn = engine.connect()
         company_sql = f"SELECT company FROM namecards WHERE uid=\"{uid}\" GROUP BY company ORDER BY count(company) DESC LIMIT 1"
         company = conn.execute(company_sql)
         for row in company:
@@ -102,8 +103,10 @@ def getNamecardStats(uid) :
         industry = conn.execute(industry_sql)
         for row in industry:
             i = (row[0])
-
-    return jsonify( {"company": c, "industry": i} )
+        return jsonify( {"company": c, "industry": i} )
+    except:
+        return jsonify ( { "company": "", "industry":"" } ) 
+    
     # conn = pymysql.connect(
     #     host="127.0.0.1",
     #     port=3306,

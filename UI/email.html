@@ -103,7 +103,7 @@
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <form method="GET" action="index.html" id="sendAllemail">
-                <div><input type="submit" value="Send" class="btn btn-primary btn-gradient" style="float:right"></div>
+                <div><input type="submit" value="Send" id="submit_button" class="btn btn-primary btn-gradient" style="float:right"></div>
               </form> 
               
               
@@ -123,6 +123,13 @@
       $('#main-container')
         .append("<label>" + message + "</label>");
    }
+
+   $(document).ready( function(){
+    $("#submit_button").click( async() => {
+      alert("Successfully sent email");
+      $(location).attr('href', 'mail.html')
+    } );
+   } );
     
     // anonymous async function 
     // - using await requires the function that calls it to be async
@@ -210,7 +217,7 @@
         const data = await response.json();
         console.log(data)
         if (response.ok) {
-          print("success")
+          alert ("success")
         }
         
       }
