@@ -6,7 +6,7 @@ from sqlalchemy import and_, or_, not_
 import smtplib, ssl
 import pika
 import json
-
+import requests
 
 app = Flask(__name__)
 
@@ -17,8 +17,18 @@ def checkEmailing(emailcheck):
     return(emailcheck)
 
 
-@app.route("/emailing/<string:emailcheck>&<string:emailname>&<string:emailsubject>&<string:emailmessage>&<string:senderEmail>&<string:emailPassword>")
-def sendEmail(emailcheck, emailname, emailsubject, emailmessage, senderEmail, emailPassword):
+@app.route("/emailing/<string:emailcheck>&<string:emailname>&<string:emailsubject>&<string:emailmessage>&<string:uid>")
+def sendEmail(emailcheck, emailname, emailsubject, emailmessage, uid):
+    #get user email and email Password
+    URL="http://127.0.0.1:8000/users/"+uid
+
+    PARAMS = {'uid':uid} 
+
+    r = requests.get(url = URL).json()
+    
+    senderEmail = r['email']
+    emailPassword = r['emailPassword']
+
     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
     port = 5672 # default messaging port.
     # connect to the broker and set up a communication channel in the connection
