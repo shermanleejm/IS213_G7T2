@@ -9,8 +9,8 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://nap@localhost:3306/namecard'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#engine = create_engine(environ.get('dbURL'))
-# engine = create_engine('mysql+mysqlconnector://nap@localhost:3306/namecard')
+# engine = create_engine(environ.get('dbURL'))
+engine = create_engine('mysql+mysqlconnector://nap@localhost:3306/namecard')
 
 db = SQLAlchemy(app)
 CORS(app)
