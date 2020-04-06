@@ -132,29 +132,29 @@
       
       event.preventDefault();
       // ------------------- retrieve users to obtain user email and email password ----------------------
-      try {
-        var userID = localStorage.getItem("uid");
-        var serviceURL = "http://127.0.0.1:8000/users/"+userID;
+      // try {
+      //   var userID = localStorage.getItem("uid");
+      //   var serviceURL = "http://127.0.0.1:8000/users/"+userID;
         
-        const response =
-          await fetch(
-            serviceURL, { method: 'GET' }
-          );
-        const data = await response.json();
+      //   const response =
+      //     await fetch(
+      //       serviceURL, { method: 'GET' }
+      //     );
+      //   const data = await response.json();
         
-        if (response.ok) {
-          var senderEmail = data.email;
-          var emailPass = data.emailPassword;
-          console.log(emailPass)
-          }
+      //   if (response.ok) {
+      //     var senderEmail = data.email;
+      //     var emailPass = data.emailPassword;
+      //     console.log(emailPass)
+      //     }
         
-      }
-      catch (error) {
-        // Errors when calling the service; such as network error, 
-        // service offline, etc
-        showError
-          ('There is a problem retrieving users data, please try again later.<br />' + error);
-      } // error 
+      // }
+      // catch (error) {
+      //   // Errors when calling the service; such as network error, 
+      //   // service offline, etc
+      //   showError
+      //     ('There is a problem retrieving users data, please try again later.<br />' + error);
+      // } // error 
 
       //---------------
       try {
@@ -203,7 +203,7 @@
         var emailsubj = document.getElementById("emailSubject").value;
         var emailmsg = document.getElementById("emailMessage").value;
         var userID = localStorage.getItem("uid");
-        var serviceURL = "http://127.0.0.1:8004/emailing/" + emailreceivers+"&"+arraEmail+"&"+emailsubj+"&"+emailmsg+"&"+senderEmail+"&"+emailPass;
+        var serviceURL = "http://127.0.0.1:8004/emailing/" + emailreceivers+"&"+arraEmail+"&"+emailsubj+"&"+emailmsg+"&"+userID;
         
         const response =
           await fetch(
