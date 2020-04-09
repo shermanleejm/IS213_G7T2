@@ -18,7 +18,7 @@ Steps for a great experince
     pip install flask_cors
     pip install pika
 
-1. Run your RabbitMQ server
+1. Run your RabbitMQ server and docker
 
 2. Retrieve the docker images for user and namecard:
     docker pull shermanlee/user:1.0.0
