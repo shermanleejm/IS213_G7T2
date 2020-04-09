@@ -3,7 +3,8 @@ WELCOME TO NETWORKING ASSISTANCE PLATFORM
 Prerequisites: 
 1. You need docker installed.
 2. This application requires RabbitMQ installed as well
-3. You need to have MySQL installed with a user callled nap with 
+3. You need to have either WAMP (Windows) or MAMP (Macintosh) 
+with MySQL installed with a user callled nap with 
 data and structure global privileges and no password
     SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, 
     ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, 
