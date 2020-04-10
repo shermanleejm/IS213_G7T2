@@ -12,7 +12,7 @@ data and structure global privileges and no password
 4. Import NAP.sql into PHPMyAdmin or equivalent
 
 Steps for a great experince
-0. Navigate your cmd or terminal window to IS213_G7T2 and install the following python packages
+0. Navigate your cmd or terminal window to Executables file and install the following python packages
     pip install flask
     pip install flask_sqlalchemy
     pip install flask_cors
