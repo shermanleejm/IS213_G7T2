@@ -9,7 +9,7 @@ data and structure global privileges and no password
     SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, 
     ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, 
     SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE
-
+4. Import NAP.sql 
 
 Steps for a great experince
 0. Navigate your cmd or terminal window to IS213_G7T2 and install the following python packages
@@ -27,10 +27,10 @@ Steps for a great experince
     docker pull shermanlee/job:1.0.0
 
 3. Run namecard.py at port 8001
-    docker run -p 8001:8001 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/namecard shermanlee/namecard
+    docker run -p 8001:8001 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/namecard shermanlee/namecard:1.0.0
 
 4. Run user.py at port 8000
-    docker run -p 8000:8000 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/user shermanlee/user
+    docker run -p 8000:8000 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/user shermanlee/user:1.0.0
 
 5. Run Emailing.py in the Email folder
     (depending on where your terminal working dir is)

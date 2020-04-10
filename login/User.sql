@@ -13,7 +13,5 @@ CREATE TABLE users (
 );
 
 INSERT INTO users VALUES
-("deebo", 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 'apple123', "password1!"),
-("rach", 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 'orange123', "password1!"),
-("sherman", "Lee Sherman", "sherman.lee.2018@sis.smu.edu.sg", "shermanrox", "password1!")
+("admin", "Lee Sherman", "sherman.lee.2018@sis.smu.edu.sg", "shermanrox", "$6$rounds=656000$rjYYcRc.ZGJbYt16$xYRPewN4Ph5IP7fTBkPPWxzDkqzgjR2LqLTyOIr5TxGn5Z1Q3zbISiBmFiuCXHhNMQiYd1ua4GcU9wrBxnAAa0")
 ;

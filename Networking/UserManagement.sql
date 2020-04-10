@@ -14,5 +14,5 @@ CREATE TABLE users (
 
 
 INSERT INTO users VALUES
-(1, 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 'apple123'),
-(2, 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 'orange123');
+('deebo', 'Deborah Lee', 'deborah.lee.2018@sis.smu.edu.sg', 'apple123'),
+('admin', 'Rachel Lui', 'rachel.lui.2018@sis.smu.edu.sg', 'orange123');
