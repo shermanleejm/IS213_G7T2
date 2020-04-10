@@ -4,7 +4,7 @@ Prerequisites:
 1. You need docker installed.
 2. This application requires RabbitMQ installed as well
 3. You need to have either WAMP (Windows) or MAMP (Macintosh) 
-with MySQL installed with a user callled nap with 
+with MySQL installed with a user called nap with 
 data and structure global privileges and no password
     SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, 
     ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, 
@@ -18,8 +18,7 @@ Steps for a great experince
     pip install flask_cors
     pip install pika
 
-1. Launch RabbitMQ server through the command: 
-    rabbitmq-server 
+1. Run your RabbitMQ server and docker
 
 2. Retrieve the docker images for user and namecard:
     docker pull shermanlee/user:1.0.0
@@ -29,19 +28,19 @@ Steps for a great experince
 3. Run namecard.py at port 8001
     docker run -p 8001:8001 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/namecard shermanlee/namecard:1.0.0
 
-4. Run user.py at port 8000
+4. Open a new cmd window and run user.py at port 8000 
     docker run -p 8000:8000 -e dbURL=mysql+mysqlconnector://nap@host.docker.internal:3306/user shermanlee/user:1.0.0
 
-5. Run Emailing.py in the Email folder
+5. Open a new cmd window and run Emailing.py in the Email folder 
     (depending on where your terminal working dir is)
     python Email/Emailing.py
 
-6. Run 3 instances of EmailSender.py in Email_Sender folder
+6. Open 3 more cmd windows and in each window, run EmailSender.py in Email_Sender folder
     (depending on where your terminal working dir is)
     python Email_Sender/EmailSender.py
 
-7. Run job.py at port 5070
-    docker run -p 5070:5070 shermanlee/job
+7. Open a new cmd window and run job.py at port 5070
+    docker run -p 5070:5070 shermanlee/job:1.0.0
 
 8. Open login.html in UI folder in your web browser
     UI/login.html
