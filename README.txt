@@ -9,7 +9,7 @@ data and structure global privileges and no password
     SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, 
     ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, 
     SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE
-4. Import NAP.sql 
+4. Import NAP.sql into PHPMyAdmin or equivalent
 
 Steps for a great experince
 0. Navigate your cmd or terminal window to IS213_G7T2 and install the following python packages
