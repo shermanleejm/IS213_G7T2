@@ -13,7 +13,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO users VALUES
-("admin", "Lee Sherman", "sherman.lee.2018@sis.smu.edu.sg", "shermanrox", "$6$rounds=656000$rjYYcRc.ZGJbYt16$xYRPewN4Ph5IP7fTBkPPWxzDkqzgjR2LqLTyOIr5TxGn5Z1Q3zbISiBmFiuCXHhNMQiYd1ua4GcU9wrBxnAAa0")
+("admin", "Lee Sherman", "testingforlife369@gmail.com", "$6$rounds=656000$rjYYcRc.ZGJbYt16$xYRPewN4Ph5IP7fTBkPPWxzDkqzgjR2LqLTyOIr5TxGn5Z1Q3zbISiBmFiuCXHhNMQiYd1ua4GcU9wrBxnAAa0", "Numlock@22")
 ;
 
 DROP DATABASE IF EXISTS namecard;
